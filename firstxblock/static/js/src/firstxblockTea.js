@@ -12,7 +12,7 @@ function FirstXBlock(runtime, element) {
     $('.testing', element).click(
         function(eventObject) 
         {
-            alert(1234)
+            console.log("testing ajax works")
 
 
             $.ajax
@@ -36,7 +36,7 @@ function FirstXBlock(runtime, element) {
         {
 
             var userInputfileName  = $('.currentFileName', element)[0].value;
-            alert(userInputfileName);
+            console.log(userInputfileName);
 
             var postUrl = runtime.handlerUrl(element, 'checkFile');
             var jsonData = JSON.stringify({"fileName": userInputfileName});
@@ -49,7 +49,7 @@ function FirstXBlock(runtime, element) {
                     data: jsonData,
                     success: function(result)
                     {
-                        alert(1234);
+                        console.log("name successfully updated.");
                         $('.fileNameInInfo', element).text(result.fileName);
                     }
                 }

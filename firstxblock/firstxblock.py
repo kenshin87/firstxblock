@@ -69,9 +69,9 @@ class FirstXBlock(XBlock):
         frag.initialize_js('FirstXBlock')
         return frag
     '''
-
-    #def studio_view(self, context=None):
-    def student_view(self, context=None):
+    '''
+    def studio_view(self, context=None):
+    #def student_view(self, context=None):
         """
         The primary view of the paellaXBlock, shown to students
         when viewing courses.
@@ -82,7 +82,7 @@ class FirstXBlock(XBlock):
         frag.add_javascript(self.resource_string("static/js/src/firstxblockTea.js"))
         frag.initialize_js('FirstXBlock')
         return frag
-    '''
+
 
     @XBlock.json_handler
     def increment_count(self, data, suffix=''):
