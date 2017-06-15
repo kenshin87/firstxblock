@@ -27,6 +27,65 @@ function FirstXBlock(runtime, element) {
         }
     );
     
+    function changesoloInput(result)
+    {
+        alert("change solo success");
+
+        $('.soloinput', element).val(result.count);
+    }
+
+    var handlerUrl = runtime.handlerUrl(element, 'changesolo');
+    window.handlerUrl = handlerUrl;
+    console.log(handlerUrl);
+
+    $('.changesolob', element).click(
+        function(eventObject) 
+        {
+            console.log("testing state solo ")
+
+
+            $.ajax
+            (
+                {
+                    type: "POST",
+                    url: handlerUrl,
+                    data: JSON.stringify({"hello": "world"}),
+                    success: changesoloInput
+                }
+            );
+        }
+    );
+
+    function changesumInput(result)
+    {
+        alert("change sum success");
+        $('.suminput', element).val(result.count);
+    }
+
+    var handlerUrl = runtime.handlerUrl(element, 'changesum');
+    window.handlerUrl = handlerUrl;
+    console.log(handlerUrl);
+
+    $('.changesumb', element).click(
+        function(eventObject) 
+        {
+            console.log("testing state sum works")
+
+
+            $.ajax
+            (
+                {
+                    type: "POST",
+                    url: handlerUrl,
+                    data: JSON.stringify({"hello": "world"}),
+                    success: changesumInput
+                }
+            );
+        }
+    );
+    
+    
+    
     
     
     //select the file

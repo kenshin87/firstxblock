@@ -67,7 +67,7 @@ class FirstXBlock(XBlock):
 
     # TO-DO: change this view to display your data your own way.
 
-
+    
     def student_view(self, context=None):
         """
         The primary view of the FirstXBlock, shown to students
@@ -79,8 +79,8 @@ class FirstXBlock(XBlock):
         frag.add_javascript(self.resource_string("static/js/src/firstxblockStu.js"))
         frag.initialize_js('FirstXBlock')
         return frag
-    '''
-    '''
+    
+    
     def studio_view(self, context=None):
     #def student_view(self, context=None):
         """
