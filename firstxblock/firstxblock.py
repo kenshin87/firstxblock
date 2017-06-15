@@ -18,6 +18,16 @@ We can store:
 class FirstXBlock(XBlock):
 
 
+    href = String(display_name="href",
+                  default="http://www.upv.es/miw/infoweb/vcamp/info/plano-upv-es.pdf",
+                  scope=Scope.content,
+                  help="PDF file that will be shown in the XBlock")
+
+    display_name = String(display_name="Display Name",
+                          default="PDF File",
+                          scope=Scope.settings,
+                          help="Name of the component in the edxplatform")
+
     validsolo = String(
         default = "None", scope = Scope.user_state,
         help = "picture url base"
@@ -45,7 +55,7 @@ class FirstXBlock(XBlock):
     )
 
     fileName = String(
-        default = "no file", scope = Scope.user_state_summary,
+        default = "no file", scope = Scope.settings,
         help = "name of the pdf file"
     )
 
