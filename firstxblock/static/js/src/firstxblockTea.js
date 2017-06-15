@@ -1,47 +1,72 @@
 /* Javascript for FirstXBlock. */
 function FirstXBlock(runtime, element) {
 
-    function paellaSaved(result) {
-        $('.server', element).text();
-        $('.video_id', element).text(result.video_id);
-        $('.display_name', element).text(result.display_name);
-    }
-
-    $(element).find('.cancel-button').bind
+    //select the file
+    $('.changeName', element).click
     (
-        'click', function() 
+        function() 
         {
-            runtime.notify('cancel', {});
+
+            var userInputfileName  = $('.currentFileName', element)[0].value;
+            alert(userInputfileName);
+
+            var postUrl = runtime.handlerUrl(element, 'checkFile');
+            var jsonData = JSON.stringify({"fileName": userInputfileName});
+
+            $.ajax
+            (
+                {
+                    type: "POST",
+                    url: postUrl,
+                    data: jsonData,
+                    success: function(result)
+                    {
+                        alert(1234);
+                        $('.fileNameInInfo', element).text(result.fileName);
+                    }
+                }
+            );
         }
     );
 
-    $(element).find('.save-button').bind
+
+
+    $(".ajaxFileServer").click
     (
-        'click', function() 
+        function()
         {
-            var data = {
-            'display_name': $(edit_display_name).context.value,
-            'href':$(edit_href).context.value
-            };
+            var formDataInstance = new FormData();
+            formDataInstance.append("fileByFormData", $('#fileInput')[0].files[0]);
+            
+            var postUrl = "/helper/xblock/upload";
+            
+            $.ajax
+            (
+                {
+                    type: 'POST',
+                    url: postUrl,
+                    data: formDataInstance,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
 
-        
-            $('.xblock-editor-error-message', element).html();
-            $('.xblock-editor-error-message', element).css('display', 'none');
 
-            var handlerUrl = runtime.handlerUrl(element, 'save_pdf');
+                    success: function(result)
+                    {
+                        alert("success");
+                    }
+                }
+            )
+        }
+    );
 
-            $.post(
-                handlerUrl,
-                JSON.stringify(data)
-                ).done(function(response) {
-            if (response.result === 'success') {
-                window.location.reload(false);
-            } else {
-                $('.xblock-editor-error-message', element).html('Error: '+response.message);
-                $('.xblock-editor-error-message', element).css('display', 'block');
-            }
-        });
-    });
+
+
+
+
+
+
+
 
     $(function ($) {
         /* Here's where you'd do things on page load. */

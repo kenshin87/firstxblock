@@ -19,7 +19,7 @@ class FirstXBlock(XBlock):
 
 
     baseUrl = String(
-        default = "127.0.0.1", scope = Scope.user_state_summary,
+        default = "None", scope = Scope.user_state_summary,
         help = "picture url base"
     )
 
@@ -29,7 +29,7 @@ class FirstXBlock(XBlock):
     )
 
     fileName = String(
-        default = "file name", scope = Scope.user_state_summary,
+        default = "no file", scope = Scope.user_state_summary,
         help = "name of the pdf file"
     )
 
@@ -53,6 +53,8 @@ class FirstXBlock(XBlock):
         return data.decode("utf8")
 
     # TO-DO: change this view to display your data your own way.
+
+
     def student_view(self, context=None):
         """
         The primary view of the FirstXBlock, shown to students
@@ -65,7 +67,9 @@ class FirstXBlock(XBlock):
         frag.initialize_js('FirstXBlock')
         return frag
 
+
     def studio_view(self, context=None):
+    #def student_view(self, context=None):
         """
         The primary view of the paellaXBlock, shown to students
         when viewing courses.
@@ -75,6 +79,8 @@ class FirstXBlock(XBlock):
         frag.add_javascript(self.resource_string("static/js/src/firstxblockTea.js"))
         frag.initialize_js('FirstXBlock')
         return frag
+
+
 
 
     # TO-DO: change this handler to perform your own actions.  You may need more
@@ -96,6 +102,31 @@ class FirstXBlock(XBlock):
         print self.page
         return {"count": self.count, "page": self.page}
 
+
+    @XBlock.json_handler
+    def initiatePage(self, data, suffix=''):
+        """
+        An example handler, which increments the data.
+        """
+
+        print 123466
+
+        assert data["fileName"] == "document"
+
+
+        # Here need to check how many file are there inside the server
+        pages = 15
+        self.totalPages = pages
+
+        return { "page": pages}
+
+    @XBlock.json_handler
+    def checkFile(self, data, suffix=''):
+        print 123466
+        assert data["fileName"] == "document"
+        self.fileName = data["fileName"]
+        # Here need to check how many file are there inside the server
+        return { "fileName": self.fileName}
 
     # TO-DO: change this to create the scenarios you'd like to see in the
     # workbench while developing your XBlock.

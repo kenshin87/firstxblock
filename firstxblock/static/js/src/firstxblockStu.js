@@ -21,9 +21,43 @@ function FirstXBlock(runtime, element) {
 
     // This will be the basic address that we can send ajax request.
     var baseUrl = "http://192.168.2.5/document/document-";
-    var getUrl = runtime.handlerUrl(element, 'get_page');
 
+    // postUrl here is for posting the message to the xblock special handle function.
+    var postUrl = runtime.handlerUrl(element, 'get_page');
+
+    // initiate the img pictures
+
+    $('.show', element).click
+    (
+        function()
+        {
+            var page       = parseInt($('.currentPage', element)[0].value);
+            var totalPages = parseInt($('.totalPages' , element)[0].value);
+                page       = getZeroIndexPage(page, totalPages);
+
+            var jsonData = JSON.stringify({"page": page});
+            var src = baseUrl + page + ".jpg";
+
+            $.ajax
+            (
+                {
+                    type: "POST",
+                    url: postUrl,
+                    data: jsonData,
+                    success: function(result)
+                    {
+                        console.log("initial");
+                        updateCount(result);
+                        updatePage(result);
+                        $('img', element)[0].src = src;
+                    }
+                }
+            );
+        }
+    );
+    
     // Need to initialize the img when the client start to load the page.
+/*
     (
         function()
         {
@@ -51,7 +85,7 @@ function FirstXBlock(runtime, element) {
             );
         }
     )();
-
+*/
     // update count and page number
     function updateCount(result) 
     {
@@ -84,7 +118,7 @@ function FirstXBlock(runtime, element) {
             (
                 {
                     type: "POST",
-                    url: getUrl,
+                    url: postUrl,
                     data: jsonData,
                     success: function(result)
                     {
@@ -97,7 +131,8 @@ function FirstXBlock(runtime, element) {
                     }
                 }
             );
-    });
+        }
+    );
 
     // Increase the page
     $('.right', element).click
@@ -122,7 +157,7 @@ function FirstXBlock(runtime, element) {
             (
                 {
                     type: "POST",
-                    url: getUrl,
+                    url: postUrl,
                     data: jsonData,
                     success: function(result)
                     {
@@ -134,7 +169,8 @@ function FirstXBlock(runtime, element) {
                     }
                 }
             );
-    });
+        }
+    );
 
     $(function ($) {
         /* Here's where you'd do things on page load. */

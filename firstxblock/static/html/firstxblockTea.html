@@ -1,45 +1,30 @@
 <div>
+
+    <div>
+            <h3>General Information</h3>
+            <p>current file is <b class = "fileNameInInfo">{self.fileName}</b></p>
+    </div>
+
+    <div>
+            <h3>upload file</h3>
+            <p><input id = "fileInput" name = "uploadedFileToWrite" type = "file"></p>
+            <p><button class = "ajaxFileServer" >upload to ajax FileServer</button></p>
+    </div>   
+
+    <div>
+      <h3>choose file</h3>
       <ul>
-
           <li>
-                <div>
-                    <label>Title</label>
-                    <input value="{self.count}" type="text">
-                    <span >The title of the PDF file that is displayed to the user</span>
-                </div>
-          </li>
-          <li>
-                <div>
+                <p>
                     <label>file name</label>
-                    <input value="{self.fileName}" type="text">
-                    <span >The name of the urlFile</span>
-                </div>
-          </li>
-          <li>
-                <div>
-                    <label>full url</label>
-                    <input value="{self.fullUrl}" type="text">
-                    <span >The link of the file</span>
-                </div>
-          </li>
-
-          <li>
-                <div>
-                    <label >PDF url</label>
-                    <input value="{self.count}" type="text">
-                    <span >The url of the pdf file</span>
-                </div>
+                    <input value="{self.fileName}" type="text" class = "currentFileName">
+                    <p><button class = "changeName">change name</button></p>
+                </p>
           </li>
       </ul>
-
-<div>
-    <span class="xblock-editor-error-message"></span>
-    <p>
-        <button class="save-button">Save</button>
-        <button class="cancel-button">Cancel</button>
-    </p>
     </div>
-</div>
+
+
 
 
 
