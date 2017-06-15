@@ -1,6 +1,34 @@
 /* Javascript for FirstXBlock. */
 function FirstXBlock(runtime, element) {
 
+    function updateCount(result) {
+        $('.count', element).text(result.count);
+    }
+
+    var handlerUrl = runtime.handlerUrl(element, 'increment_count');
+    window.handlerUrl = handlerUrl;
+    console.log(handlerUrl);
+
+    $('.testing', element).click(
+        function(eventObject) 
+        {
+            alert(1234)
+
+
+            $.ajax
+            (
+                {
+                    type: "POST",
+                    url: handlerUrl,
+                    data: JSON.stringify({"hello": "world"}),
+                    success: updateCount
+                }
+            );
+        }
+    );
+    
+    
+    
     //select the file
     $('.changeName', element).click
     (

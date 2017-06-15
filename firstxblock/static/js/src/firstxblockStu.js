@@ -1,6 +1,32 @@
 /* Javascript for FirstXBlock. */
 function FirstXBlock(runtime, element) {
 
+    function updateCount(result) {
+        $('.count', element).text(result.count);
+    }
+
+    var handlerUrl = runtime.handlerUrl(element, 'increment_count');
+    window.handlerUrl = handlerUrl;
+    console.log(handlerUrl);
+
+    $('.testing', element).click(
+        function(eventObject) 
+        {
+
+
+
+            $.ajax
+            (
+                {
+                    type: "POST",
+                    url: handlerUrl,
+                    data: JSON.stringify({"hello": "world"}),
+                    success: updateCount
+                }
+            );
+        }
+    );
+
 
     // PagePara is the value that is shown on client's screen. So need to be changed.
     // Return value of this function is the real zeroIndex index of the desired page.

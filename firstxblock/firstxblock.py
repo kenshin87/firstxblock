@@ -18,6 +18,11 @@ We can store:
 class FirstXBlock(XBlock):
 
 
+    count = Integer(
+        default= 0, scope=Scope.user_state,
+        help="total pages",
+    )
+
     baseUrl = String(
         default = "None", scope = Scope.user_state_summary,
         help = "picture url base"
@@ -33,10 +38,7 @@ class FirstXBlock(XBlock):
         help = "name of the pdf file"
     )
 
-    count = Integer(
-        default= 0, scope=Scope.user_state,
-        help="total pages",
-    )
+
 
     totalPages = Integer(
         default= 10, scope=Scope.user_state,
@@ -66,20 +68,33 @@ class FirstXBlock(XBlock):
         frag.add_javascript(self.resource_string("static/js/src/firstxblockStu.js"))
         frag.initialize_js('FirstXBlock')
         return frag
+    '''
 
-
-    def studio_view(self, context=None):
-    #def student_view(self, context=None):
+    #def studio_view(self, context=None):
+    def student_view(self, context=None):
         """
         The primary view of the paellaXBlock, shown to students
         when viewing courses.
         """
         html = self.resource_string("static/html/firstxblockTea.html")
         frag = Fragment(html.format(self=self))
+        frag.add_css(self.resource_string("static/css/firstxblock.css"))
         frag.add_javascript(self.resource_string("static/js/src/firstxblockTea.js"))
         frag.initialize_js('FirstXBlock')
         return frag
+    '''
 
+    @XBlock.json_handler
+    def increment_count(self, data, suffix=''):
+        """
+        An example handler, which increments the data.
+        """
+        # Just to show data coming in...
+        print "see"
+        assert data['hello'] == 'world'
+
+        self.count += 1
+        return {"count": self.count}
 
 
 
