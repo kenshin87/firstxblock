@@ -57,7 +57,7 @@ class FirstXBlock(XBlock):
         html = self.resource_string("static/html/firstxblockStu.html")
         frag = Fragment(html.format(self=self))
         frag.add_css(self.resource_string("static/css/firstxblock.css"))
-        frag.add_javascript(self.resource_string("static/js/src/firstxblock.js"))
+        frag.add_javascript(self.resource_string("static/js/src/firstxblockStu.js"))
         frag.initialize_js('FirstXBlock')
         return frag
 
@@ -68,8 +68,8 @@ class FirstXBlock(XBlock):
         """
         html = self.resource_string("static/html/firstxblockTea.html")
         frag = Fragment(html.format(self=self))
-        frag.add_javascript(self.resource_string("static/js/src/pdf_edit.js"))
-        frag.initialize_js('pdfXBlock')
+        frag.add_javascript(self.resource_string("static/js/src/firstxblockTea.js"))
+        frag.initialize_js('FirstXBlock')
         return frag
 
 
