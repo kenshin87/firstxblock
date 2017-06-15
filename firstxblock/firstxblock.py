@@ -19,17 +19,17 @@ class FirstXBlock(XBlock):
 
 
     baseUrl = String(
-        default = "", scope = Scope.user_state_summary,
+        default = "127.0.0.1", scope = Scope.user_state_summary,
         help = "picture url base"
     )
 
     fullUrl = String(
-        default = "", scope = Scope.user_state_summary,
+        default = "127.0.0.1", scope = Scope.user_state_summary,
         help = "picture url url"
     )
 
     fileName = String(
-        default = "", scope = Scope.user_state_summary,
+        default = "file name", scope = Scope.user_state_summary,
         help = "name of the pdf file"
     )
 
