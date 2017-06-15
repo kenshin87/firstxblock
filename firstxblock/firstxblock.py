@@ -18,6 +18,17 @@ We can store:
 class FirstXBlock(XBlock):
 
 
+    validsolo = String(
+        default = "None", scope = Scope.user_state,
+        help = "picture url base"
+    )
+
+    validsum  =  String(
+        default = "None", scope = Scope.user_state_summary,
+        help = "picture url base"
+    )
+
+
     count = Integer(
         default= 0, scope=Scope.user_state,
         help="total pages",
@@ -96,6 +107,29 @@ class FirstXBlock(XBlock):
         self.count += 1
         return {"count": self.count}
 
+    @XBlock.json_handler
+    def changesolo(self, data, suffix=''):
+        """
+        An example handler, which increments the data.
+        """
+        # Just to show data coming in...
+
+        assert data['hello'] == 'world'
+
+        self.count += 1
+        return {"count": self.count}
+
+    @XBlock.json_handler
+    def changesum(self, data, suffix=''):
+        """
+        An example handler, which increments the data.
+        """
+        # Just to show data coming in...
+
+        assert data['hello'] == 'world'
+
+        self.count += 1
+        return {"count": self.count}
 
 
     # TO-DO: change this handler to perform your own actions.  You may need more
