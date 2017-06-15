@@ -28,6 +28,10 @@ class FirstXBlock(XBlock):
         help = "picture url url"
     )
 
+    fileName = String(
+        default = "", scope = Scope.user_state_summary,
+        help = "name of the pdf file"
+    )
 
     count = Integer(
         default= 0, scope=Scope.user_state,
