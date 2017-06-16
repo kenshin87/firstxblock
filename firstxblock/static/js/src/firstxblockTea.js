@@ -118,20 +118,17 @@ function FirstXBlock(runtime, element) {
 
 
 
-    $(".ajaxFileServer").click
+    $("#ajaxFileServer").click
     (
         function()
         {
             var formDataInstance = new FormData();
-            formDataInstance.append("fileByFormData", $('#fileInput')[0].files[0]);
-            
-            var postUrl = "/helper/xblock/upload";
-            
+            formDataInstance.append("file-upload", $('#file-upload')[0].files[0]);
             $.ajax
             (
                 {
                     type: 'POST',
-                    url: postUrl,
+                    url: '/filecms/upload',
                     data: formDataInstance,
                     cache: false,
                     contentType: false,
@@ -140,13 +137,12 @@ function FirstXBlock(runtime, element) {
 
                     success: function(result)
                     {
-                        alert("success");
+                        alert(321);
                     }
                 }
             )
         }
     );
-
 
 
 
