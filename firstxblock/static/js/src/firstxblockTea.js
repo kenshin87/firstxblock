@@ -118,7 +118,7 @@ function FirstXBlock(runtime, element) {
 
 
 
-    $("#ajaxFileServer").click
+    $(".ajaxFileServer", element).click
     (
         function()
         {
@@ -128,7 +128,7 @@ function FirstXBlock(runtime, element) {
             (
                 {
                     type: 'POST',
-                    url: '/filecms/upload',
+                    url: '/filecms/upload/',
                     data: formDataInstance,
                     cache: false,
                     contentType: false,
