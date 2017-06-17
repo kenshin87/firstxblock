@@ -159,10 +159,12 @@ for testing
 
 
                     success: function(response)
-                    {   window.respp = response;
-                        console.log(typeof(response));
-                        //alert(response);
-                        //changeName(response);
+                    {
+                        if (typeof(response) != "string")
+                        {
+                            response = JSON.stringify(response);
+                        }
+                        changeName(response);
                     }
                 }
             )
