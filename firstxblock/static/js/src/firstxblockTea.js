@@ -159,9 +159,10 @@ for testing
 
 
                     success: function(response)
-                    {
+                    {   window.respp = response;
+                        console.log(typeof(response));
                         //alert(response);
-                        changeName(response);
+                        //changeName(response);
                     }
                 }
             )
