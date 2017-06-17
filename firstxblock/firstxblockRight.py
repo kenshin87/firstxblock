@@ -18,14 +18,6 @@ We can store:
 class FirstXBlock(XBlock):
 
 
-
-    systemGeneratedRandomName = String(
-        default = "no file", scope = Scope.settings,
-        help = "name of the pdf file"
-    )
-
-
-
     href = String(display_name="href",
                   default="http://www.upv.es/miw/infoweb/vcamp/info/plano-upv-es.pdf",
                   scope=Scope.content,
@@ -36,6 +28,15 @@ class FirstXBlock(XBlock):
                           scope=Scope.settings,
                           help="Name of the component in the edxplatform")
 
+    validsolo = String(
+        default = "None", scope = Scope.user_state,
+        help = "picture url base"
+    )
+
+    validsum  =  String(
+        default = "None", scope = Scope.user_state_summary,
+        help = "picture url base"
+    )
 
 
     count = Integer(
@@ -43,7 +44,20 @@ class FirstXBlock(XBlock):
         help="total pages",
     )
 
+    baseUrl = String(
+        default = "None", scope = Scope.user_state_summary,
+        help = "picture url base"
+    )
 
+    fullUrl = String(
+        default = "127.0.0.1", scope = Scope.user_state_summary,
+        help = "picture url url"
+    )
+
+    fileName = String(
+        default = "no file", scope = Scope.settings,
+        help = "name of the pdf file"
+    )
 
 
 
@@ -63,7 +77,7 @@ class FirstXBlock(XBlock):
 
     # TO-DO: change this view to display your data your own way.
 
-
+    
     def student_view(self, context=None):
         """
         The primary view of the FirstXBlock, shown to students
@@ -75,7 +89,7 @@ class FirstXBlock(XBlock):
         frag.add_javascript(self.resource_string("static/js/src/firstxblockStu.js"))
         frag.initialize_js('FirstXBlock')
         return frag
-
+    
     
     def studio_view(self, context=None):
     #def student_view(self, context=None):
@@ -103,6 +117,29 @@ class FirstXBlock(XBlock):
         self.count += 1
         return {"count": self.count}
 
+    @XBlock.json_handler
+    def changesolo(self, data, suffix=''):
+        """
+        An example handler, which increments the data.
+        """
+        # Just to show data coming in...
+
+        assert data['hello'] == 'world'
+
+        self.count += 1
+        return {"count": self.count}
+
+    @XBlock.json_handler
+    def changesum(self, data, suffix=''):
+        """
+        An example handler, which increments the data.
+        """
+        # Just to show data coming in...
+
+        assert data['hello'] == 'world'
+
+        self.count += 1
+        return {"count": self.count}
 
 
     # TO-DO: change this handler to perform your own actions.  You may need more
@@ -139,15 +176,16 @@ class FirstXBlock(XBlock):
         # Here need to check how many file are there inside the server
         pages = 15
         self.totalPages = pages
+
         return { "page": pages}
 
     @XBlock.json_handler
     def checkFile(self, data, suffix=''):
         print 123466
-        assert 1 == 1
-        self.systemGeneratedRandomName = data["systemGeneratedRandomName"]
+        assert data["fileName"] == "document"
+        self.fileName = data["fileName"]
         # Here need to check how many file are there inside the server
-        return { "systemGeneratedRandomName": self.systemGeneratedRandomName}
+        return { "fileName": self.fileName}
 
     # TO-DO: change this to create the scenarios you'd like to see in the
     # workbench while developing your XBlock.
