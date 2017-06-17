@@ -144,11 +144,16 @@ class FirstXBlock(XBlock):
 
     @XBlock.json_handler
     def checkFile(self, data, suffix=''):
-        print 123466
         assert 1 == 1
+        print systemGeneratedRandomName
         self.systemGeneratedRandomName = data["systemGeneratedRandomName"]
         # Here need to check how many file are there inside the server
         return { "systemGeneratedRandomName": self.systemGeneratedRandomName}
+
+    @XBlock.json_handler
+    def updateFile(self, data, suffix=''):
+        return { "systemGeneratedRandomName": self.systemGeneratedRandomName}
+
 
     # TO-DO: change this to create the scenarios you'd like to see in the
     # workbench while developing your XBlock.

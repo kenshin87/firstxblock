@@ -81,6 +81,34 @@ function FirstXBlock(runtime, element) {
             );
         }
     );
+
+
+    
+    $('.printSystemGeneratedRandomName', element).click
+    (
+        function()
+        {
+            var postUrl = runtime.handlerUrl(element, 'updateFile');
+            var jsonData = JSON.stringify({"systemGeneratedRandomName": "systemGeneratedRandomName"});
+           
+            $.ajax
+            (
+                {
+                    type: "POST",
+                    url: postUrl,
+                    data: jsonData,
+                    success: function(result)
+                    {
+                        console.log(result);
+                        console.log(result["systemGeneratedRandomName"]);
+                    }
+                }
+            );
+        }
+    );
+    
+    
+    
     
     // Need to initialize the img when the client start to load the page.
 /*
@@ -112,6 +140,7 @@ function FirstXBlock(runtime, element) {
         }
     )();
 */
+
     // update count and page number
     function updateCount(result) 
     {
