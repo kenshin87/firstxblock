@@ -17,7 +17,10 @@ We can store:
 
 class FirstXBlock(XBlock):
 
-
+    fileName= String(
+        default = "no file", scope = Scope.settings,
+        help = "name of the pdf file"
+    )
 
     systemGeneratedRandomName = String(
         default = "no file", scope = Scope.settings,

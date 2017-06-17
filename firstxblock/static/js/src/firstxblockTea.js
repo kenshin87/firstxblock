@@ -45,10 +45,10 @@ function FirstXBlock(runtime, element) {
                     type: "POST",
                     url: postUrl,
                     data: jsonData,
-                    success: function(result)
+                    success: function(response)
                     {
                         console.log("name successfully updated.");
-                        $('.fileNameInInfo', element).text(result.fileName);
+                        $('.fileNameInInfo', element).text(response.fileName);
                     }
                 }
             );
@@ -56,7 +56,35 @@ function FirstXBlock(runtime, element) {
     );
 
 
+        // Argument response here is just a string of ' {"result": {"file_url": "asdasdasd.pdf"}} '
+        function changeName(response) 
+        {
+            var jsonParsedResponse = JSON.parse(response);
+            var systemGeneratedRandomName  = jsonParsedResponse["result"]["file_url"];
+            console.log(systemGeneratedRandomName);
 
+            var postUrl = runtime.handlerUrl(element, 'checkFile');
+            var jsonData = JSON.stringify({"systemGeneratedRandomName": systemGeneratedRandomName});
+
+            console.log(jsonData);
+
+            $.ajax
+            (
+                {
+                    type: "POST",
+                    url: postUrl,
+                    data: jsonData,
+                    success: function(result)
+                    {
+                        console.log("file upload and changing name.");
+                        $('.systemGeneratedRandomName', element).text(result.systemGeneratedRandomName);
+                    }
+                }
+            );
+        }
+
+/*
+for testing
         function changeName(result) 
         {
 
@@ -85,6 +113,33 @@ function FirstXBlock(runtime, element) {
             );
         }
 
+            result = JSON.parse(result);
+            window.result = result;
+            var systemGeneratedRandomName  = result["file_url"];
+            console.log(systemGeneratedRandomName);
+
+            var postUrl = runtime.handlerUrl(element, 'checkFile');
+            var jsonData = JSON.stringify({"systemGeneratedRandomName": systemGeneratedRandomName});
+
+            console.log(jsonData);
+
+            $.ajax
+            (
+                {
+                    type: "POST",
+                    url: postUrl,
+                    data: jsonData,
+                    success: function(result)
+                    {
+                        console.log("file upload and changing name.");
+                        $('.systemGeneratedRandomName', element).text(result.systemGeneratedRandomName);
+                    }
+                }
+            );
+
+*/
+
+
 
     $(".ajaxFileServer", element).click
     (
@@ -103,10 +158,10 @@ function FirstXBlock(runtime, element) {
                     processData: false,
 
 
-                    success: function(result)
+                    success: function(response)
                     {
-                        alert(result);
-                        changeName(result);
+                        //alert(response);
+                        changeName(response);
                     }
                 }
             )
