@@ -64,7 +64,9 @@ function FirstXBlock(runtime, element) {
             console.log(systemGeneratedRandomName);
 
             var postUrl = runtime.handlerUrl(element, 'renewFile');
-            var jsonData = JSON.stringify({"systemGeneratedRandomName": systemGeneratedRandomName});
+            var preSystemGeneratedRandomName = systemGeneratedRandomName.replace(".pdf", "");
+
+            var jsonData = JSON.stringify({"systemGeneratedRandomName": preSystemGeneratedRandomName});
 
             console.log(jsonData);
 
@@ -77,7 +79,7 @@ function FirstXBlock(runtime, element) {
                     success: function(result)
                     {
                         console.log("file upload and changing name.");
-                        $('.systemGeneratedRandomName', element).text(result.systemGeneratedRandomName);
+                        $('.systemGeneratedRandomName', element).text(preSystemGeneratedRandomName);
                     }
                 }
             );
