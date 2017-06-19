@@ -23,7 +23,7 @@ class FirstXBlock(XBlock):
     )
 
     systemGeneratedRandomName = String(
-        default = "no file", scope = Scope.settings,
+        default = "no file", scope = Scope.user_state_summary,
         help = "name of the pdf file"
     )
 
@@ -41,7 +41,7 @@ class FirstXBlock(XBlock):
 
 
     count = Integer(
-        default= 0, scope=Scope.settings,
+        default= 0, scope=Scope.user_state,
         help="total pages",
     )
 
@@ -65,10 +65,10 @@ class FirstXBlock(XBlock):
 
 
     def student_view(self, context=None):
-        """
-        The primary view of the FirstXBlock, shown to students
-        when viewing courses.
-        """
+        
+        #The primary view of the FirstXBlock, shown to students
+        #when viewing courses.
+        
         html = self.resource_string("static/html/firstxblockStu.html")
         frag = Fragment(html.format(self=self))
         frag.add_css(self.resource_string("static/css/firstxblock.css"))
