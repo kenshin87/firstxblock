@@ -23,7 +23,7 @@ class FirstXBlock(XBlock):
     )
 
     systemGeneratedRandomName = String(
-        default = "no file", scope = Scope.user_state_summary,
+        default = "no file", scope = Scope.settings,
         help = "name of the pdf file"
     )
 

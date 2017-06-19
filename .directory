@@ -1,4 +1,7 @@
 [Dolphin]
 PreviewsShown=true
-Timestamp=2017,6,15,10,30,16
+Timestamp=2017,6,19,10,58,18
 Version=3
+
+[Settings]
+HiddenFilesShown=true
