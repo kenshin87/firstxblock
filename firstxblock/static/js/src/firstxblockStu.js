@@ -46,10 +46,10 @@ function FirstXBlock(runtime, element) {
     }
 
     // This will be the basic address that we can send ajax request.
-    var baseUrl = "http://192.168.2.5/document/document-";
+    //var baseUrl = "http://192.168.2.5/document/document-";
 
     // postUrl here is for posting the message to the xblock special handle function.
-    var postUrl = runtime.handlerUrl(element, 'get_page');
+    //var postUrl = runtime.handlerUrl(element, 'get_page');
 
     // initiate the img pictures
 
@@ -87,7 +87,7 @@ function FirstXBlock(runtime, element) {
 */
 
     // This will be the basic address that we can send ajax request.
-    var baseUrl = "127.0.0.1:8002/filecms/image/";
+    var baseUrl = "http://127.0.0.1:8002/filecms/image/";
 
     // postUrl here is for posting the message to the xblock special handle function.
     var postUrl = runtime.handlerUrl(element, 'get_page');
