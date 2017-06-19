@@ -1,20 +1,15 @@
 /* Javascript for FirstXBlock. */
 function FirstXBlock(runtime, element) {
 
-    function updateCount(result) {
-        $('.count', element).text(result.count);
+    function updateCount(response) {
+        $(".count", element).text(response.count);
     }
 
-    var handlerUrl = runtime.handlerUrl(element, 'increment_count');
-    window.handlerUrl = handlerUrl;
-    console.log(handlerUrl);
+    var handlerUrl = runtime.handlerUrl(element, "increment_count");
 
-    $('.testing', element).click(
+    $(".testing", element).click(
         function(eventObject) 
         {
-            console.log("testing ajax works")
-
-
             $.ajax
             (
                 {
@@ -28,15 +23,14 @@ function FirstXBlock(runtime, element) {
     );
     
     //This is just for testing, can detele it.
-    $('.changeName', element).click
+    $(".changeName", element).click
     (
         function() 
         {
 
-            var userInputfileName  = $('.currentFileName', element)[0].value;
-            console.log(userInputfileName);
+            var userInputfileName  = $(".currentFileName", element)[0].value;
 
-            var postUrl = runtime.handlerUrl(element, 'checkFile');
+            var postUrl = runtime.handlerUrl(element, "checkFile");
             var jsonData = JSON.stringify({"fileName": userInputfileName});
 
             $.ajax
@@ -47,8 +41,7 @@ function FirstXBlock(runtime, element) {
                     data: jsonData,
                     success: function(response)
                     {
-                        console.log("name successfully updated.");
-                        $('.fileNameInInfo', element).text(response.fileName);
+                        $(".fileNameInInfo", element).text(response.fileName);
                     }
                 }
             );
@@ -56,19 +49,18 @@ function FirstXBlock(runtime, element) {
     );
 
 
-        // Argument response here is just a string of ' {"result": {"file_url": "asdasdasd.pdf"}} '
+        // Argument response here is just a string of " {"result": {"file_url": "asdasdasd.pdf"}} "
         function changeName(response) 
         {
+            alert("was successful, now we begin to change the name;");
             var jsonParsedResponse = JSON.parse(response);
             var systemGeneratedRandomName  = jsonParsedResponse["result"]["file_url"];
-            console.log(systemGeneratedRandomName);
 
-            var postUrl = runtime.handlerUrl(element, 'renewFile');
+            var postUrl = runtime.handlerUrl(element, "renewFile");
             var preSystemGeneratedRandomName = systemGeneratedRandomName.replace(".pdf", "");
 
             var jsonData = JSON.stringify({"systemGeneratedRandomName": preSystemGeneratedRandomName});
 
-            console.log(jsonData);
 
             $.ajax
             (
@@ -78,69 +70,20 @@ function FirstXBlock(runtime, element) {
                     data: jsonData,
                     success: function(result)
                     {
-                        console.log("file upload and changing name.");
-                        $('.systemGeneratedRandomName', element).text(preSystemGeneratedRandomName);
+                        $(".systemGeneratedRandomName", element).val(preSystemGeneratedRandomName);
                     }
                 }
             );
         }
 
-/*
-for testing
-        function changeName(result) 
-        {
+    // By posting a formdata instance including a file to the server, it get the randomized file name 
 
-            result = JSON.parse(result);
-            window.result = result;
-            var systemGeneratedRandomName  = result["file_url"];
-            console.log(systemGeneratedRandomName);
-
-            var postUrl = runtime.handlerUrl(element, 'checkFile');
-            var jsonData = JSON.stringify({"systemGeneratedRandomName": systemGeneratedRandomName});
-
-            console.log(jsonData);
-
-            $.ajax
-            (
-                {
-                    type: "POST",
-                    url: postUrl,
-                    data: jsonData,
-                    success: function(result)
-                    {
-                        console.log("file upload and changing name.");
-                        $('.systemGeneratedRandomName', element).text(result.systemGeneratedRandomName);
-                    }
-                }
-            );
-        }
-
-            result = JSON.parse(result);
-            window.result = result;
-            var systemGeneratedRandomName  = result["file_url"];
-            console.log(systemGeneratedRandomName);
-
-            var postUrl = runtime.handlerUrl(element, 'checkFile');
-            var jsonData = JSON.stringify({"systemGeneratedRandomName": systemGeneratedRandomName});
-
-            console.log(jsonData);
-
-            $.ajax
-            (
-                {
-                    type: "POST",
-                    url: postUrl,
-                    data: jsonData,
-                    success: function(result)
-                    {
-                        console.log("file upload and changing name.");
-                        $('.systemGeneratedRandomName', element).text(result.systemGeneratedRandomName);
-                    }
-                }
-            );
-
-*/
-
+    // require:
+    //     <input class = "systemGeneratedRandomName" value = {self.systemGeneratedRandomName}    
+    //     <input class = "file-upload" name  = "file-upload"   >
+    //     <input class = "ajaxFileServer">
+    // return:
+    //     randomized file name of the pdf file, aka "32498753958234958.pdf"
 
 
     $(".ajaxFileServer", element).click
@@ -148,21 +91,20 @@ for testing
         function()
         {
             var formDataInstance = new FormData();
-            formDataInstance.append("file-upload", $('.file-upload', element)[0].files[0]);
+            formDataInstance.append("file-upload", $(".file-upload", element)[0].files[0]);
             $.ajax
             (
                 {
-                    type: 'POST',
-                    url: '/filecms/upload/',
-                    data: formDataInstance,
+                    type : "POST",
+                    url  : "/filecms/upload/",
+                    data : formDataInstance,
                     cache: false,
                     contentType: false,
                     processData: false,
 
-
                     success: function(response)
                     {
-                        console.log("we enter success");
+                        alert("The post is successful!");
                         if (typeof(response) != "string")
                         {
                             response = JSON.stringify(response);
@@ -174,15 +116,8 @@ for testing
         }
     );
 
-
-
-
-
-
-
-
     $(function ($) {
-        /* Here's where you'd do things on page load. */
+        /* Here"s where you"d do things on page load. */
     });
 
 

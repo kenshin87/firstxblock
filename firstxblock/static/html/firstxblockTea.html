@@ -1,21 +1,37 @@
-<div>
+<div class="wrapper-comp-settings editor-with-buttons is-active" id="settings-tab">
 
-<p class = "testing">HappyXBlock: count is now
-    <span class='count'>{self.count}</span> (click me to increment).
-</p>
 
-    
-    <h3>General Information</h3>
-    <p>current file is <b class = "systemGeneratedRandomName">{self.systemGeneratedRandomName}</b></p><!-- after successfully upload the file, the name should be here -->
+<ul class="list-input settings-list">
+    <p class = "testing">测试用函数
+        <span class='count'>{self.count}</span> (点击这里增加).
+    </p>
 
-    <h3>upload file</h3>
-    <p><input class = "file-upload" type = file name = "file-upload"></p>
-    <p><button class = "ajaxFileServer" >upload to ajax FileServer</button></p>
+    <li class= "field comp-setting-entry is-set">
+        <div class="wrapper-comp-setting">
+            <label class="label setting-label">系统自动生成随机文件名</label>
+            <input class="input setting-input systemGeneratedRandomName" value= {self.systemGeneratedRandomName} type="text">
+        </div>
+        <span class="tip setting-help">上传成功之后，系统随机生成的相应文件名会在这里出现。</span>
+    </li>
+
+    <li class= "field comp-setting-entry is-set">
+        <div class="wrapper-comp-setting">
+            <label class="label setting-label">点击右边“选择文件”按钮</label>
+            <input class = "file-upload" type = file name = "file-upload">
+        </div>
+        <input type = button class = "ajaxFileServer" value = "开始上传"/>
+        <p><span class="tip setting-help">点击“选择文件”按钮选择文件，再点击“上传”按钮，上传文件</span></p>
+    </li>
+
+    <div class="xblock-actions">
+        <ul>
+            <li class="action-item">
+                <a href="#" class="button action-cancel">取消上传</a>
+            </li>
+        </ul>
+    </div>
+</ul>
+
+
 
 </div>
-
-
-
-
-
-

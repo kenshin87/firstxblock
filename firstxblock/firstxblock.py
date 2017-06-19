@@ -1,3 +1,4 @@
+#encoding=utf-8
 """TO-DO: Write a description of what this XBlock is."""
 
 import pkg_resources
@@ -23,10 +24,9 @@ class FirstXBlock(XBlock):
     )
 
     systemGeneratedRandomName = String(
-        default = "no file", scope = Scope.settings,
+        default = u"暂未上传文件", scope = Scope.settings,
         help = "name of the pdf file"
     )
-
 
     href = String(display_name="href",
                   default="http://www.upv.es/miw/infoweb/vcamp/info/plano-upv-es.pdf",
@@ -63,22 +63,22 @@ class FirstXBlock(XBlock):
 
     # TO-DO: change this view to display your data your own way.
 
-
+    '''
     def student_view(self, context=None):
-        
+
         #The primary view of the FirstXBlock, shown to students
         #when viewing courses.
-        
+
         html = self.resource_string("static/html/firstxblockStu.html")
         frag = Fragment(html.format(self=self))
         frag.add_css(self.resource_string("static/css/firstxblock.css"))
         frag.add_javascript(self.resource_string("static/js/src/firstxblockStu.js"))
         frag.initialize_js('FirstXBlock')
         return frag
+    '''
 
-    
-    def studio_view(self, context=None):
-    #def student_view(self, context=None):
+    def student_view(self, context=None):
+    #def studio_view(self, context=None):
         """
         The primary view of the paellaXBlock, shown to students
         when viewing courses.
@@ -179,3 +179,4 @@ class FirstXBlock(XBlock):
                 </vertical_demo>
              """),
         ]
+
