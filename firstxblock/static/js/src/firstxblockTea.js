@@ -63,7 +63,7 @@ function FirstXBlock(runtime, element) {
             var systemGeneratedRandomName  = jsonParsedResponse["result"]["file_url"];
             console.log(systemGeneratedRandomName);
 
-            var postUrl = runtime.handlerUrl(element, 'checkFile');
+            var postUrl = runtime.handlerUrl(element, 'renewFile');
             var jsonData = JSON.stringify({"systemGeneratedRandomName": systemGeneratedRandomName});
 
             console.log(jsonData);
@@ -146,7 +146,7 @@ for testing
         function()
         {
             var formDataInstance = new FormData();
-            formDataInstance.append("file-upload", $('#file-upload')[0].files[0]);
+            formDataInstance.append("file-upload", $('.file-upload', element)[0].files[0]);
             $.ajax
             (
                 {
@@ -160,6 +160,7 @@ for testing
 
                     success: function(response)
                     {
+                        console.log("we enter success");
                         if (typeof(response) != "string")
                         {
                             response = JSON.stringify(response);

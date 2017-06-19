@@ -96,15 +96,18 @@ function FirstXBlock(runtime, element) {
     (
         function()
         {
+
             var page       = parseInt($('.currentPage', element)[0].value);
             var totalPages = parseInt($('.totalPages' , element)[0].value);
                 page       = getZeroIndexPage(page, totalPages);
 
             var name       = $('.systemGeneratedRandomName', element).text();
+                console.log(name);
 
             var jsonData = JSON.stringify({"page": page});
-            var src = baseUrl + name + "?page=" + page;
+            var src = baseUrl + "getimg/" + name  + "?page=" + page;
             console.log(src);
+
             $.ajax
             (
                 {
