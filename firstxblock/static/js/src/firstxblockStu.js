@@ -105,7 +105,7 @@ function FirstXBlock(runtime, element) {
                 console.log(name);
 
             var jsonData = JSON.stringify({"page": page});
-            var src = baseUrl + "getimg/" + name  + "?page=" + page;
+            var src = baseUrl + "getimg/" + name  + "/?page=" + page;
             console.log(src);
 
             $.ajax
@@ -254,7 +254,8 @@ function FirstXBlock(runtime, element) {
             var name       = $('.systemGeneratedRandomName', element).text();
 
             //var src  = baseUrl + page + ".jpg";
-            var src = baseUrl + name + "?page=" + page; 
+            //var src = baseUrl + name + "?page=" + page; 
+            var src = baseUrl + "getimg/" + name  + "/?page=" + page;
 
 
             console.log(src);
@@ -296,8 +297,11 @@ function FirstXBlock(runtime, element) {
 
             var jsonData = JSON.stringify({"page": page});
 
-            var src = baseUrl + name + "?page=" + page; 
+            //var src = baseUrl + name + "?page=" + page; 
             //var src  = baseUrl + page + ".jpg";
+            var src = baseUrl + "getimg/" + name  + "/?page=" + page;
+
+
 
             console.log(src);
 
