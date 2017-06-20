@@ -136,6 +136,12 @@ function FirstXBlock(runtime, element) {
                     success: function(response)
                     {
                         alert("iife success");
+                    
+                        if (typeof(response) != "string")
+                        {
+                            response = JSON.stringify(response);
+                        }
+                        
                         response = JSON.parse(response)["result"];
 
                         // only execute consequential codes when result.pages > 0; 
