@@ -48,7 +48,7 @@ class FirstXBlock(XBlock):
 
 
     totalPages = Integer(
-        default= 10, scope=Scope.user_state,
+        default= 0, scope=Scope.user_state,
         help="total pages",
     )
     page       = Integer(
@@ -105,6 +105,23 @@ class FirstXBlock(XBlock):
 
 
 
+    # in js, we start by getting the firstPage and initialize the total page
+    @XBlock.json_handler
+    def set_page(self, data, suffix=''):
+
+        currentPage = int(data["page"])
+        totalPages  = int(data["totalPages"])
+
+        print currentPage, totalPages
+
+
+        self.page       = currentPage
+        self.totalPages = totalPages
+
+        return {"result":"successful"}
+
+
+
     # TO-DO: change this handler to perform your own actions.  You may need more
     # than one handler, or you may not need any handlers at all.
     @XBlock.json_handler
@@ -113,8 +130,7 @@ class FirstXBlock(XBlock):
         An example handler, which increments the data.
         """
         newPage = int(data["page"])
-        print newPage
-        print type(data['page'])
+        print newPage, self.page, self.totalPages
         # Just to show data coming in...
         if newPage >= 0 and newPage < self.totalPages:
             self.page = newPage
@@ -140,6 +156,7 @@ class FirstXBlock(XBlock):
         pages = 15
         self.totalPages = pages
         return { "page": pages}
+
 
     @XBlock.json_handler
     def renewFile(self, data, suffix=''):

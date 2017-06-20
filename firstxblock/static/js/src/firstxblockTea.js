@@ -22,32 +22,6 @@ function FirstXBlock(runtime, element) {
         }
     );
     
-    //This is just for testing, can detele it.
-    $(".changeName", element).click
-    (
-        function() 
-        {
-
-            var userInputfileName  = $(".currentFileName", element)[0].value;
-
-            var postUrl = runtime.handlerUrl(element, "checkFile");
-            var jsonData = JSON.stringify({"fileName": userInputfileName});
-
-            $.ajax
-            (
-                {
-                    type: "POST",
-                    url: postUrl,
-                    data: jsonData,
-                    success: function(response)
-                    {
-                        $(".fileNameInInfo", element).text(response.fileName);
-                    }
-                }
-            );
-        }
-    );
-
 
         // Argument response here is just a string of " {"result": {"file_url": "asdasdasd.pdf"}} "
         function changeName(response) 
@@ -72,7 +46,6 @@ function FirstXBlock(runtime, element) {
                     {
                         $(".systemGeneratedRandomName", element).val(preSystemGeneratedRandomName);
                         window.location.reload();
-                        alert(1235);
                     }
                 }
             );
@@ -125,6 +98,33 @@ function FirstXBlock(runtime, element) {
                     }
                 )
             }
+        }
+    );
+
+
+    // Following are testing code, can delete
+    $(".changeName", element).click
+    (
+        function() 
+        {
+
+            var userInputfileName  = $(".currentFileName", element)[0].value;
+
+            var postUrl = runtime.handlerUrl(element, "checkFile");
+            var jsonData = JSON.stringify({"fileName": userInputfileName});
+
+            $.ajax
+            (
+                {
+                    type: "POST",
+                    url: postUrl,
+                    data: jsonData,
+                    success: function(response)
+                    {
+                        $(".fileNameInInfo", element).text(response.fileName);
+                    }
+                }
+            );
         }
     );
 

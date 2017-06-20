@@ -19,8 +19,14 @@ function FirstXBlock(runtime, element) {
         else                                      {return pagePara;         }
     }
 
+    function returnGetUrl()
+    {}
+
+    function returnPostUrl()
+    {}
+
     // This will be the basic address that we can send ajax request.
-    var baseUrl = "http://127.0.0.1:8002/filecms/image/";
+    var baseUrl = "http://127.0.0.1:8000/filecms/image/";
 
     // postUrl here is for posting the message to the xblock special handle function.
     var postUrl = runtime.handlerUrl(element, 'get_page');
@@ -58,14 +64,95 @@ function FirstXBlock(runtime, element) {
 */
 
     // update count and page number
-    function updateCount(result) 
+    function updateCount(response) 
     {
-        $('.count', element).text(result.count);
+        $('.count', element).text(response.count);
     }
-    function updatePage(result)
+    function updatePage(response)
     {
-        $('.currentPage')[0].value = result.page + 1;            
+        $('.currentPage')[0].value = response.page + 1;            
     }
+
+
+
+    (
+        function()
+        {
+            function setPage(response)
+            {
+                $('.currentPage', element).val(1);
+                console.log($('.currentPage', element));
+                window.cur = $('.currentPage', element);
+            }
+
+            function setTotalPage(response)
+            {
+                $('.totalPages', element).val(response["pages"]);
+                console.log( $('.totalPages', element).val);
+            }            
+
+            function initializePage(response)
+            {
+                // postUrl here is for posting the message to the xblock special handle function.
+                var postUrl = runtime.handlerUrl(element, 'set_page');
+
+                var page       = 0;
+                var totalPages = response["pages"];
+                var jsonData = JSON.stringify({"page": page, "totalPages": totalPages});
+
+                $.ajax
+                (
+                    {
+                        type: "POST",
+                        url: postUrl,
+                        data: jsonData,
+                        success: function(response)
+                        {
+                            console.log(response["result"]);
+
+                        }
+                    }
+                );
+        
+            }       
+
+            //     What we want to do is firstly get the number of jpgs. But the issue here is that all the files are stored inside the teacher's server, 
+            // so we cannot use a post method, what we can do is just use a get method to visit teacher's server.
+            //             
+            var name       = $('.systemGeneratedRandomName', element).text();
+
+            var baseUrl    = "http://127.0.0.1:8000/filecms/image/";
+            var getUrl     = baseUrl + "getimagesquantity/";
+            var src        = baseUrl + "getimages/" + name + "?page=0";
+            var jsonData   = {"imageFolder": name};
+            console.log(src);
+
+            $.ajax
+            (
+                {
+                    type: "GET",
+                    url: getUrl,
+                    data:jsonData,
+                    success: function(response)
+                    {
+                        response = JSON.parse(response)["result"];
+
+                        // only execute consequential codes when result.pages > 0; 
+                        if (response["pages"] > 0 )
+                        {
+                            setTotalPage(response);
+                            initializePage(response);
+                            setPage();
+                            $('img', element)[0].src = src;
+                        }
+                    }
+                }
+            );
+        }
+    )();
+
+
+
 
     $('.show', element).click
     (
@@ -80,7 +167,7 @@ function FirstXBlock(runtime, element) {
                 console.log(name);
 
             var jsonData = JSON.stringify({"page": page});
-            var src = baseUrl + "getimg/" + name  + "/?page=" + page;
+            var src = baseUrl + "getimages/" + name  + "/?page=" + page;
             console.log(src);
 
             $.ajax
@@ -112,7 +199,6 @@ function FirstXBlock(runtime, element) {
                 page      -= 1; 
                 page       = checkValidZeroIndexPage(page, totalPages);
                 page = page.toString();
-                console.log(page);
             
 
             var jsonData = JSON.stringify({"page": page});
@@ -120,7 +206,7 @@ function FirstXBlock(runtime, element) {
 
             //var src  = baseUrl + page + ".jpg";
             //var src = baseUrl + name + "?page=" + page; 
-            var src = baseUrl + "getimg/" + name  + "/?page=" + page;
+            var src = baseUrl + "getimages/" + name  + "/?page=" + page;
 
 
             console.log(src);
@@ -164,7 +250,7 @@ function FirstXBlock(runtime, element) {
 
             //var src = baseUrl + name + "?page=" + page; 
             //var src  = baseUrl + page + ".jpg";
-            var src = baseUrl + "getimg/" + name  + "/?page=" + page;
+            var src = baseUrl + "getimages/" + name  + "/?page=" + page;
 
 
 
