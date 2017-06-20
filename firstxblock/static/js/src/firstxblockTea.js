@@ -71,6 +71,7 @@ function FirstXBlock(runtime, element) {
                     success: function(result)
                     {
                         $(".systemGeneratedRandomName", element).val(preSystemGeneratedRandomName);
+                        window.location.reload();
                     }
                 }
             );
@@ -88,33 +89,45 @@ function FirstXBlock(runtime, element) {
 
     $(".ajaxFileServer", element).click
     (
-        function()
+        function(eventObject)
         {
-            var formDataInstance = new FormData();
-            formDataInstance.append("file-upload", $(".file-upload", element)[0].files[0]);
-            $.ajax
-            (
-                {
-                    type : "POST",
-                    url  : "/filecms/upload/",
-                    data : formDataInstance,
-                    cache: false,
-                    contentType: false,
-                    processData: false,
+            if ( $(".file-upload", element)[0].files.length == 0 )
+            {
+                eventObject.preventDefault();
+                $(".noUploadWarning", element).css("background-color", "#f11")
+                $(".noUploadWarning", element).text("请先点击“选择文件”按钮选择一个pdf文件");
+            }
+            else
+            {
+                var formDataInstance = new FormData();
+                formDataInstance.append("file-upload", $(".file-upload", element)[0].files[0]);
 
-                    success: function(response)
+                $.ajax
+                (
                     {
-                        alert("The post is successful!");
-                        if (typeof(response) != "string")
+                        type : "POST",
+                        url  : "/filecms/upload/",
+                        data : formDataInstance,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+
+                        success: function(response)
                         {
-                            response = JSON.stringify(response);
+                            alert("The post is successful!");
+                            if (typeof(response) != "string")
+                            {
+                                response = JSON.stringify(response);
+                            }
+                            changeName(response);
                         }
-                        changeName(response);
                     }
-                }
-            )
+                )
+            }
         }
     );
+
+
 
     $(function ($) {
         /* Here"s where you"d do things on page load. */
