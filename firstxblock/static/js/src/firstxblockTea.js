@@ -72,6 +72,7 @@ function FirstXBlock(runtime, element) {
                     {
                         $(".systemGeneratedRandomName", element).val(preSystemGeneratedRandomName);
                         window.location.reload();
+                        alert(1235);
                     }
                 }
             );
