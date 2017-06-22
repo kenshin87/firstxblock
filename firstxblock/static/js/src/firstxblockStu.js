@@ -1,6 +1,9 @@
 /* Javascript for FirstXBlock. */
 function FirstXBlock(runtime, element) {
 
+    var global = {};
+        global.baseUrl = "http://127.0.0.1:8000/filecms/image/";
+
 
     // PagePara is the value that is shown on client's screen. So need to be changed.
     // Return value of this function is the real zeroIndex index of the desired page.
@@ -26,7 +29,7 @@ function FirstXBlock(runtime, element) {
     {}
 
     // This will be the basic address that we can send ajax request.
-    var baseUrl = "http://127.0.0.1:8002/filecms/image/";
+    var baseUrl = global.baseUrl;
 
     // postUrl here is for posting the message to the xblock special handle function.
     var postUrl = runtime.handlerUrl(element, 'get_page');
@@ -121,7 +124,7 @@ function FirstXBlock(runtime, element) {
             //             
             var name       = $('.systemGeneratedRandomName', element).text();
 
-            var baseUrl    = "http://127.0.0.1:8002/filecms/image/";
+            var baseUrl    = global.baseUrl;
             var getUrl     = baseUrl + "getimagesquantity/";
             var src        = baseUrl + "getimages/" + name + "?page=0";
             var jsonData   = {"imageFolder": name};
