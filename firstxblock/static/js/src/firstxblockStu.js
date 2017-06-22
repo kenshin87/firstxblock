@@ -26,7 +26,7 @@ function FirstXBlock(runtime, element) {
     {}
 
     // This will be the basic address that we can send ajax request.
-    var baseUrl = "http://127.0.0.1:8000/filecms/image/";
+    var baseUrl = "http://127.0.0.1:8002/filecms/image/";
 
     // postUrl here is for posting the message to the xblock special handle function.
     var postUrl = runtime.handlerUrl(element, 'get_page');
@@ -121,7 +121,7 @@ function FirstXBlock(runtime, element) {
             //             
             var name       = $('.systemGeneratedRandomName', element).text();
 
-            var baseUrl    = "http://127.0.0.1:8000/filecms/image/";
+            var baseUrl    = "http://127.0.0.1:8002/filecms/image/";
             var getUrl     = baseUrl + "getimagesquantity/";
             var src        = baseUrl + "getimages/" + name + "?page=0";
             var jsonData   = {"imageFolder": name};
