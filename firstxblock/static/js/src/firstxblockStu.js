@@ -2,7 +2,7 @@
 function FirstXBlock(runtime, element) {
 
     var global = {};
-        global.baseUrl = "http://127.0.0.1:8000/filecms/image/";
+        global.baseUrl = "http://127.0.0.1:8002/filecms/image/";
 
 
     // PagePara is the value that is shown on client's screen. So need to be changed.
@@ -77,10 +77,11 @@ function FirstXBlock(runtime, element) {
     }
 
 
-
+/*
     (
         function()
         {
+        	alert("initiating")
             function setPage(response)
             {
                 $('.currentPage', element).val(1);
@@ -116,7 +117,6 @@ function FirstXBlock(runtime, element) {
                         }
                     }
                 );
-        
             }       
 
             //     What we want to do is firstly get the number of jpgs. But the issue here is that all the files are stored inside the teacher's server, 
@@ -158,6 +158,8 @@ function FirstXBlock(runtime, element) {
             );
         }
     )();
+
+*/
 
     $('.show', element).click
     (

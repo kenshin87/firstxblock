@@ -1,31 +1,93 @@
 /* Javascript for FirstXBlock. */
 function FirstXBlock(runtime, element) {
 
-    function updateCount(response) {
-        $(".count", element).text(response.count);
-    }
+    var global = {};
+        global.baseUrl = "http://127.0.0.1:8000/filecms/image/";
 
-    var handlerUrl = runtime.handlerUrl(element, "increment_count");
-
-    $(".testing", element).click(
-        function(eventObject) 
+        function initiatePage()
         {
+            alert("initiating")
+            function setPage(response)
+            {
+                $('.currentPage', element).val(1);
+                console.log($('.currentPage', element));
+                window.cur = $('.currentPage', element);
+            }
+
+            function setTotalPage(response)
+            {
+                $('.totalPages', element).val(response["pages"]);
+                console.log( $('.totalPages', element).val);
+            }            
+
+            function initializePage(response)
+            {
+                // postUrl here is for posting the message to the xblock special handle function.
+                var postUrl = runtime.handlerUrl(element, 'set_page');
+
+                var page       = 0;
+                var totalPages = response["pages"];
+                var jsonData = JSON.stringify({"page": page, "totalPages": totalPages});
+
+                $.ajax
+                (
+                    {
+                        type: "POST",
+                        url: postUrl,
+                        data: jsonData,
+                        success: function(response)
+                        {
+                            console.log(response["result"]);
+
+                        }
+                    }
+                );
+            }       
+
+            //     What we want to do is firstly get the number of jpgs. But the issue here is that all the files are stored inside the teacher's server, 
+            // so we cannot use a post method, what we can do is just use a get method to visit teacher's server.
+            //             
+            var name       = $('.systemGeneratedRandomName', element).text();
+
+            var baseUrl    = global.baseUrl;
+            var getUrl     = baseUrl + "getimagesquantity/";
+            var src        = baseUrl + "getimages/" + name + "?page=0";
+            var jsonData   = {"imageFolder": name};
+            console.log(src);
+
             $.ajax
             (
                 {
-                    type: "POST",
-                    url: handlerUrl,
-                    data: JSON.stringify({"hello": "world"}),
-                    success: updateCount
+                    type: "GET",
+                    url: getUrl,
+                    data:jsonData,
+                    success: function(response)
+                    {
+                        if (typeof(response) != "string")
+                        {
+                            response = JSON.stringify(response);
+                        }
+                        
+                        response = JSON.parse(response)["result"];
+
+                        // only execute consequential codes when result.pages > 0; 
+                        if (response["pages"] > 0 )
+                        {
+                            setTotalPage(response);
+                            initializePage(response);
+                            setPage();
+                            $('img', element)[0].src = src;
+                        }
+                    }
                 }
             );
         }
-    );
-    
+
 
         // Argument response here is just a string of " {"result": {"file_url": "asdasdasd.pdf"}} "
         function changeName(response) 
         {
+            
             alert("was successful, now we begin to change the name;");
             var jsonParsedResponse = JSON.parse(response);
             var systemGeneratedRandomName  = jsonParsedResponse["result"]["file_url"];
@@ -45,7 +107,7 @@ function FirstXBlock(runtime, element) {
                     success: function(result)
                     {
                         $(".systemGeneratedRandomName", element).val(preSystemGeneratedRandomName);
-                        window.location.reload();
+                        initiatePage();
                     }
                 }
             );
@@ -97,12 +159,36 @@ function FirstXBlock(runtime, element) {
                         }
                     }
                 )
+
             }
         }
     );
 
 
     // Following are testing code, can delete
+
+    function updateCount(response) {
+        $(".count", element).text(response.count);
+    }
+
+    var handlerUrl = runtime.handlerUrl(element, "increment_count");
+
+    $(".testing", element).click(
+        function(eventObject) 
+        {
+            $.ajax
+            (
+                {
+                    type: "POST",
+                    url: handlerUrl,
+                    data: JSON.stringify({"hello": "world"}),
+                    success: updateCount
+                }
+            );
+        }
+    );
+    
+
     $(".changeName", element).click
     (
         function() 

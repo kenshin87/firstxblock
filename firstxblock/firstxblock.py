@@ -45,10 +45,8 @@ class FirstXBlock(XBlock):
         help="total pages",
     )
 
-
-
     totalPages = Integer(
-        default= 0, scope=Scope.user_state,
+        default= 0, scope=Scope.settings,
         help="total pages",
     )
     page       = Integer(
