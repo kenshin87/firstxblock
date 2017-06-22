@@ -65,19 +65,21 @@ function FirstXBlock(runtime, element) {
                     type: "POST",
                     url: totalPageUrl,
                     data: jsonData,
-                    success: function(result)
+                    success: function(response)
                     {
                         console.log("initial");
-                        console.log(result);
-                        updateCount(result);
-                        updatePage(result);
-                        if (result.totalPages > 0)
+                        console.log(response);
+                        updateCount(response);
+                        updatePage(response);
+                        if (response.totalPages > 0)
                         {
+                            $('.currentPage', element).val(1);
                             $('img', element)[0].src = src;
                         }
                     }
                 }
             );
+
         }
     );
 
