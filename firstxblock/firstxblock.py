@@ -41,7 +41,7 @@ class FirstXBlock(XBlock):
 
 
     count = Integer(
-        default= 0, scope=Scope.settings,
+        default= 0, scope=Scope.user_state,
         help="total pages",
     )
 
