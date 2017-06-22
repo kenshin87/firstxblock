@@ -109,7 +109,7 @@ function FirstXBlock(runtime, element) {
 
                 var page       = 0;
                 var totalPages = response["pages"];
-                var jsonData = JSON.stringify({"page": page, "totalPages": totalPages});
+                var jsonData = JSON.stringify({"totalPages": totalPages});
 
                 $.ajax
                 (
@@ -157,7 +157,9 @@ function FirstXBlock(runtime, element) {
             //     What we want to do is firstly get the number of jpgs. But the issue here is that all the files are stored inside the teacher's server, 
             // so we cannot use a post method, what we can do is just use a get method to visit teacher's server.
             //             
-            var name       = $('.systemGeneratedRandomName', element).text();
+
+            var name       = $('.systemGeneratedRandomName', element).val();
+            alert(name);
 
             var baseUrl    = global.baseUrl;
             var getUrl     = baseUrl + "getimagesquantity/";

@@ -108,13 +108,11 @@ class FirstXBlock(XBlock):
     @XBlock.json_handler
     def set_page(self, data, suffix=''):
 
-        currentPage = int(data["page"])
+
         totalPages  = int(data["totalPages"])
 
         print currentPage, totalPages
 
-
-        self.page       = currentPage
         self.totalPages = totalPages
 
         return {"result":"successful"}
