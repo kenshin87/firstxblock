@@ -146,7 +146,7 @@ function FirstXBlock(runtime, element) {
                 var postUrl = runtime.handlerUrl(element, 'set_page');
 
                 var totalPages = response["pages"];
-                
+
                 var jsonData = JSON.stringify({"totalPages": totalPages});
 
                 $.ajax
@@ -164,8 +164,6 @@ function FirstXBlock(runtime, element) {
                 );
             }       
         }
-
-
 
     // Following are testing code, can delete
 

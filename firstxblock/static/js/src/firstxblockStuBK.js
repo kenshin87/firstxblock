@@ -30,6 +30,36 @@ function FirstXBlock(runtime, element) {
     var postUrl = runtime.handlerUrl(element, 'get_page');
 
     
+    // Need to initialize the img when the client start to load the page.
+/*
+    (
+        function()
+        {
+            var page       = parseInt($('.currentPage', element)[0].value);
+            var totalPages = parseInt($('.totalPages' , element)[0].value);
+                page       = getZeroIndexPage(page, totalPages);
+
+            var jsonData = JSON.stringify({"page": page});
+            var src = baseUrl + page + ".jpg";
+
+            $.ajax
+            (
+                {
+                    type: "POST",
+                    url: getUrl,
+                    data: jsonData,
+                    success: function(result)
+                    {
+                        console.log("initial");
+                        updateCount(result);
+                        updatePage(result);
+                        $('img', element)[0].src = src;
+                    }
+                }
+            );
+        }
+    )();
+*/
 
     // update count and page number
     function updateCount(response) 
@@ -42,20 +72,103 @@ function FirstXBlock(runtime, element) {
     }
 
 
+/*
+    (
+        function()
+        {
+        	alert("initiating")
+            function setPage(response)
+            {
+                $('.currentPage', element).val(1);
+                console.log($('.currentPage', element));
+                window.cur = $('.currentPage', element);
+            }
+
+            function setTotalPage(response)
+            {
+                $('.totalPages', element).val(response["pages"]);
+                console.log( $('.totalPages', element).val);
+            }            
+
+            function initializePage(response)
+            {
+                // postUrl here is for posting the message to the xblock special handle function.
+                var postUrl = runtime.handlerUrl(element, 'set_page');
+
+                var page       = 0;
+                var totalPages = response["pages"];
+                var jsonData = JSON.stringify({"page": page, "totalPages": totalPages});
+
+                $.ajax
+                (
+                    {
+                        type: "POST",
+                        url: postUrl,
+                        data: jsonData,
+                        success: function(response)
+                        {
+                            console.log(response["result"]);
+
+                        }
+                    }
+                );
+            }       
+
+            //     What we want to do is firstly get the number of jpgs. But the issue here is that all the files are stored inside the teacher's server, 
+            // so we cannot use a post method, what we can do is just use a get method to visit teacher's server.
+            //             
+            var name       = $('.systemGeneratedRandomName', element).text();
+
+            var baseUrl    = global.baseUrl;
+            var getUrl     = baseUrl + "getimagesquantity/";
+            var src        = baseUrl + "getimages/" + name + "?page=0";
+            var jsonData   = {"imageFolder": name};
+            console.log(src);
+
+            $.ajax
+            (
+                {
+                    type: "GET",
+                    url: getUrl,
+                    data:jsonData,
+                    success: function(response)
+                    {
+                        if (typeof(response) != "string")
+                        {
+                            response = JSON.stringify(response);
+                        }
+                        
+                        response = JSON.parse(response)["result"];
+
+                        // only execute consequential codes when result.pages > 0; 
+                        if (response["pages"] > 0 )
+                        {
+                            setTotalPage(response);
+                            initializePage(response);
+                            setPage();
+                            $('img', element)[0].src = src;
+                        }
+                    }
+                }
+            );
+        }
+    )();
+
+*/
+
     $('.show', element).click
     (
         function()
         {
-
-            var page    = 0;
-            var baseUrl = global.baseUrl;
-        
-            // postUrl here is for posting the message to the xblock special handle function.
-            var totalPageUrl = runtime.handlerUrl(element, 'get_totalPages');
-            var jsonData = JSON.stringify({"page": page});
+            console.log(postUrl);
+            var page       = parseInt($('.currentPage', element)[0].value);
+            var totalPages = parseInt($('.totalPages' , element)[0].value);
+                page       = getZeroIndexPage(page, totalPages);
 
             var name       = $('.systemGeneratedRandomName', element).text();
+                console.log(name);
 
+            var jsonData = JSON.stringify({"page": page});
             var src = baseUrl + "getimages/" + name  + "/?page=" + page;
             console.log(src);
 
@@ -63,18 +176,14 @@ function FirstXBlock(runtime, element) {
             (
                 {
                     type: "POST",
-                    url: totalPageUrl,
+                    url: postUrl,
                     data: jsonData,
                     success: function(result)
                     {
                         console.log("initial");
-                        console.log(result);
                         updateCount(result);
                         updatePage(result);
-                        if (result.totalPages > 0)
-                        {
-                            $('img', element)[0].src = src;
-                        }
+                        $('img', element)[0].src = src;
                     }
                 }
             );
@@ -179,6 +288,8 @@ function FirstXBlock(runtime, element) {
     }
 
     var handlerUrl = runtime.handlerUrl(element, 'increment_count');
+    window.handlerUrl = handlerUrl;
+    console.log(handlerUrl);
 
     $('.testing', element).click(
         function(eventObject) 

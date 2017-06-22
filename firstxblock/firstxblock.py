@@ -121,6 +121,14 @@ class FirstXBlock(XBlock):
 
     # TO-DO: change this handler to perform your own actions.  You may need more
     # than one handler, or you may not need any handlers at all.
+
+    @XBlock.json_handler
+    def get_totalPages(self, data, suffix=''):
+        print "enter total"
+        return {"totalPages": self.totalPages}
+
+
+
     @XBlock.json_handler
     def get_page(self, data, suffix=''):
         """
@@ -135,7 +143,7 @@ class FirstXBlock(XBlock):
         self.count += 1
         #return {"count": self.count, "page":page}
         print self.page
-        return {"count": self.count, "page": self.page}
+        return {"count": self.count, "page": self.page, "totalPages": self.totalPages}
 
 
     @XBlock.json_handler
