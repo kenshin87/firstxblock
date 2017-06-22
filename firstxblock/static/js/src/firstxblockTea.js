@@ -2,8 +2,7 @@
 function FirstXBlock(runtime, element) {
 
     var global = {};
-        global.baseUrl = "http://127.0.0.1:8000/filecms/image/";
-
+        global.baseUrl = "/filecms/image/";
 
 
     // By posting a formdata instance including a file to the server, it get the randomized file name 
@@ -61,7 +60,6 @@ function FirstXBlock(runtime, element) {
         function changeName(response) 
         {
             
-            alert("was successful, now we begin to change the name;");
             var jsonParsedResponse = JSON.parse(response);
             var systemGeneratedRandomName  = jsonParsedResponse["result"]["file_url"];
 
@@ -86,14 +84,54 @@ function FirstXBlock(runtime, element) {
             );
         }
 
+
+
         function initiatePage()
         {
-            alert("initiating")
+
+            // At this point we've upload the pdf.
+            // What we want to do is firstly get the number of jpgs. In order to avoid cors, we just store all the variable.       
+
+            var name       = $('.systemGeneratedRandomName', element).val();
+
+            var baseUrl    = global.baseUrl;
+            var getUrl     = baseUrl + "getimagesquantity/";
+            var jsonData   = {"imageFolder": name};
+
+            $.ajax
+            (
+                {
+                    type: "GET",
+                    url: getUrl,
+                    data:jsonData,
+                    success: getPageQuantity,
+                }
+            );
+
+            function getPageQuantity(response)
+            {
+                if (typeof(response) != "string")
+                {
+                    response = JSON.stringify(response);
+                }
+                
+                response = JSON.parse(response)["result"];
+
+                // only execute consequential codes when result.pages > 0; 
+                if (response["pages"] > 0 )
+                {
+                    console.log("end");
+                    setTotalPage(response);
+                    initializePage(response);
+                    //setPage();
+                }
+            }
+
+
             function setPage(response)
             {
                 $('.currentPage', element).val(1);
                 console.log($('.currentPage', element));
-                window.cur = $('.currentPage', element);
             }
 
             function setTotalPage(response)
@@ -107,8 +145,8 @@ function FirstXBlock(runtime, element) {
                 // postUrl here is for posting the message to the xblock special handle function.
                 var postUrl = runtime.handlerUrl(element, 'set_page');
 
-                var page       = 0;
                 var totalPages = response["pages"];
+                
                 var jsonData = JSON.stringify({"totalPages": totalPages});
 
                 $.ajax
@@ -125,58 +163,6 @@ function FirstXBlock(runtime, element) {
                     }
                 );
             }       
-
-            function getPageQuantity(response)
-            {
-                console.log(src);
-
-                if (typeof(response) != "string")
-                {
-                    response = JSON.stringify(response);
-                }
-                
-                response = JSON.parse(response)["result"];
-
-                // only execute consequential codes when result.pages > 0; 
-                if (response["pages"] > 0 )
-                {
-                    alert(src);
-                    var localSrc = src;
-
-                    console.log(src);
-                    console.log(src);
-                    console.log(src);
-                    console.log(src);
-                    setTotalPage(response);
-                    initializePage(response);
-                    setPage();
-                    //$('img', element)[0].src = localSrc;
-                }
-            }
-
-            //     What we want to do is firstly get the number of jpgs. But the issue here is that all the files are stored inside the teacher's server, 
-            // so we cannot use a post method, what we can do is just use a get method to visit teacher's server.
-            //             
-
-            var name       = $('.systemGeneratedRandomName', element).val();
-            alert(name);
-
-            var baseUrl    = global.baseUrl;
-            var getUrl     = baseUrl + "getimagesquantity/";
-            var src        = baseUrl + "getimages/" + name + "?page=0";
-            var jsonData   = {"imageFolder": name};
-            console.log(src);
-
-
-            $.ajax
-            (
-                {
-                    type: "GET",
-                    url: getUrl,
-                    data:jsonData,
-                    success: getPageQuantity,
-                }
-            );
         }
 
 

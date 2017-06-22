@@ -22,11 +22,6 @@ function FirstXBlock(runtime, element) {
         else                                      {return pagePara;         }
     }
 
-    function returnGetUrl()
-    {}
-
-    function returnPostUrl()
-    {}
 
     // This will be the basic address that we can send ajax request.
     var baseUrl = global.baseUrl;
