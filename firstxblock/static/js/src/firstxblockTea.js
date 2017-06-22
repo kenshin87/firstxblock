@@ -147,8 +147,6 @@ function FirstXBlock(runtime, element) {
                     console.log(src);
                     console.log(src);
                     console.log(src);
-
-                    console.log(src);
                     setTotalPage(response);
                     initializePage(response);
                     setPage();
@@ -166,6 +164,7 @@ function FirstXBlock(runtime, element) {
             var src        = baseUrl + "getimages/" + name + "?page=0";
             var jsonData   = {"imageFolder": name};
             console.log(src);
+
 
             $.ajax
             (
