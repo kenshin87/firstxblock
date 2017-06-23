@@ -16,6 +16,7 @@ We can store:
     2. the current page
 """
 
+
 class FirstXBlock(XBlock):
 
     fileName= String(
@@ -34,11 +35,9 @@ class FirstXBlock(XBlock):
                   help="PDF file that will be shown in the XBlock")
 
     display_name = String(display_name="Display Name",
-                          default="firstxblock",
+                          default="PDF",
                           scope=Scope.settings,
-                          help="Name of the component in the edxplatform")
-
-
+                          help="Name of the component in the edx-platform")
 
     count = Integer(
         default= 0, scope=Scope.user_state,
@@ -109,18 +108,12 @@ class FirstXBlock(XBlock):
         return {"systemGeneratedRandomName":self.systemGeneratedRandomName}
 
 
-
     # in js, we start by getting the firstPage and initialize the total page
     @XBlock.json_handler
     def set_page(self, data, suffix=''):
-
-
         totalPages  = int(data["totalPages"])
-
         print totalPages
-
         self.totalPages = totalPages
-
         return {"result":"successful"}
 
 
@@ -185,8 +178,16 @@ class FirstXBlock(XBlock):
     def updateFile(self, data, suffix=''):
         return { "systemGeneratedRandomName": self.systemGeneratedRandomName}
 
+    @XBlock.json_handler
+    def save_pdf(self, data, suffix=''):
+        """
+        The saving handler.
+        """
+        self.display_name = data['display_name']
 
-
+        return {
+            'result': 'success',
+        }
 
 
 

@@ -22,12 +22,13 @@ function FirstXBlock(runtime, element) {
         else                                      {return pagePara;         }
     }
 
-
     // This will be the basic address that we can send ajax request.
     var baseUrl = global.baseUrl;
 
     // postUrl here is for posting the message to the xblock special handle function.
     var postUrl = runtime.handlerUrl(element, 'get_page');
+
+
 
     
 
@@ -110,8 +111,8 @@ function FirstXBlock(runtime, element) {
                     data: jsonData,
                     success: function(result)
                     {
-                        console.log("left")
-                        console.log(result.count)
+                        console.log("left");
+                        console.log(result.count);
 
                         updateCount(result);
                         updatePage(result);
@@ -188,9 +189,6 @@ function FirstXBlock(runtime, element) {
     $('.testing', element).click(
         function(eventObject) 
         {
-
-
-
             $.ajax
             (
                 {
@@ -287,16 +285,17 @@ function FirstXBlock(runtime, element) {
                 $(classNameOfDiv, element).click
                 (
                     functionNamePara
-                )
+                );
             }
-            clickDiv(".pdf-pre", firstXBlockShowNextPage);
+            clickDiv(".pdf-pre",  firstXBlockShowNextPage);
             clickDiv(".pdf-next", firstXBlockShowPreviousPage);
-
-
         }
-    )
+    );
 
-    $(function ($) {
-        /* Here's where you'd do things on page load. */
-    });
+    $(
+        function ($)
+        {
+            /* Here's where you'd do things on page load. */
+        }
+    );
 }

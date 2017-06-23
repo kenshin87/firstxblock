@@ -2,9 +2,19 @@
 
 
 <ul class="list-input settings-list">
+
+
     <p class = "testing">测试用函数
         <span class='count'>{self.count}</span> (点击这里增加).
     </p>
+
+     <li class="field comp-setting-entry is-set">
+        <div class="wrapper-comp-setting">
+            <label class="label setting-label" for="pdf_edit_display_name">Display Name</label>
+            <input class="input setting-input" value="{{ display_name }}" type="text">
+        </div>
+        <span class="tip setting-help">This name appears in the horizontal navigation at the top of the page.</span>
+    </li>
 
     <li class= "field comp-setting-entry is-set">
         <div class="wrapper-comp-setting">
@@ -16,7 +26,7 @@
 
     <li class= "field comp-setting-entry is-set">
         <div class="wrapper-comp-setting">
-            <label class="label setting-label">点击右边“选择文件”按钮</label>
+            <label class="label setting-label">请选择PDF文件</label>
             <input class = "file-upload" type = file name = "file-upload">
         </div>
         <input type = button class = "ajaxFileServer" value = "开始上传"/>
@@ -26,8 +36,13 @@
 
     <div class="xblock-actions">
         <ul>
+
             <li class="action-item">
-                <a href="#" class="button action-cancel">返回</a>
+                <a href="#" class="button action-primary action-save">Save</a>
+            </li>
+
+            <li class="action-item">
+                <a href="#" class="button action-cancel">Cancel</a>
             </li>
         </ul>
     </div>

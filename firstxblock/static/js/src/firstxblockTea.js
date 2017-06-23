@@ -221,5 +221,10 @@ function FirstXBlock(runtime, element) {
         /* Here"s where you"d do things on page load. */
     });
 
+    $(element).find('.action-cancel').bind('click', function() {
+        runtime.notify('cancel', {});
+    });
+
+
 
 }
