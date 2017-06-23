@@ -1,12 +1,6 @@
 /* Javascript for FirstXBlock. */
 function FirstXBlock(runtime, element) {
 
-    console.log(runtime);
-    console.log(runtime.notify);
-    window.runtimee = runtime;
-
-
-    var runtime = runtime;
     var global = {};
         global.baseUrl = "/filecms/image/";
 
@@ -21,22 +15,10 @@ function FirstXBlock(runtime, element) {
     //     randomized file name of the pdf file, aka "32498753958234958.pdf"
 
 
-    $(element).find('.action-cancel').bind('click', function() {
-        runtime.notify('cancel', {});
-    });
-
-
-    $(element).find('.action-save').bind
-
+    $(".ajaxFileServer", element).click
     (
-        'click', 
-        ajaxSaving
-    );
-
-        function ajaxSaving (eventObject)
+        function(eventObject)
         {
-            
-
             if ( $(".file-upload", element)[0].files.length == 0 )
             {
                 eventObject.preventDefault();
@@ -45,8 +27,6 @@ function FirstXBlock(runtime, element) {
             }
             else
             {
-                runtime.notify('save', {state: 'start'});
-
                 var formDataInstance = new FormData();
                 formDataInstance.append("file-upload", $(".file-upload", element)[0].files[0]);
 
@@ -74,10 +54,7 @@ function FirstXBlock(runtime, element) {
 
             }
         }
-
-
-
-
+    );
 
         // Argument response here is just a string of " {"result": {"file_url": "asdasdasd.pdf"}} "
         function changeName(response) 
@@ -98,7 +75,7 @@ function FirstXBlock(runtime, element) {
                     type: "POST",
                     url: postUrl,
                     data: jsonData,
-                    success: function(response)
+                    success: function(result)
                     {
                         $(".systemGeneratedRandomName", element).val(preSystemGeneratedRandomName);
                         initiatePage();
@@ -128,7 +105,6 @@ function FirstXBlock(runtime, element) {
                     url: getUrl,
                     data:jsonData,
                     success: getPageQuantity,
-                    error: function() { runtime.notify('error', {msg: response.message})}
                 }
             );
 
@@ -148,8 +124,7 @@ function FirstXBlock(runtime, element) {
                     setTotalPage(response);
                     initializePage(response);
                     //setPage();
-                    //window.location.reload();
-                    runtime.notify('save', {state: 'end'});
+                    window.location.reload();
                 }
             }
 
@@ -218,6 +193,14 @@ function FirstXBlock(runtime, element) {
     $(function ($) {
         /* Here"s where you"d do things on page load. */
     });
+
+    $(element).find('.action-cancel').bind('click', function() {
+        runtime.notify('cancel', {});
+    });
+
+
+
+
 
 
 
