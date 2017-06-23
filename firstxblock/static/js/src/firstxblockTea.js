@@ -124,6 +124,7 @@ function FirstXBlock(runtime, element) {
                     setTotalPage(response);
                     initializePage(response);
                     //setPage();
+                    window.location.reload();
                 }
             }
 

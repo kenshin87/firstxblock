@@ -83,10 +83,7 @@ function FirstXBlock(runtime, element) {
         }
     );
 
-    // Reduce the page
-    $('.firstXBlockLeft', element).click
-    (
-        function(eventObject) 
+        function firstXBlockShowNextPage(eventObject) 
         {
             var page       = parseInt($('.firstXBlockCurrentPage', element).val());
             var totalPages = parseInt($('.firstXBlockTotalPages' , element).text());
@@ -123,12 +120,14 @@ function FirstXBlock(runtime, element) {
                 }
             );
         }
+
+    // Reduce the page
+    $('.firstXBlockLeft', element).click
+    (
+        firstXBlockShowNextPage
     );
 
-    // Increase the page
-    $('.firstXBlockRight', element).click
-    (
-        function(eventObject) 
+        function firstXBlockShowPreviousPage (eventObject) 
         {
             var page       = parseInt($('.firstXBlockCurrentPage', element).val());
             var totalPages = parseInt($('.firstXBlockTotalPages' , element).text());
@@ -168,6 +167,11 @@ function FirstXBlock(runtime, element) {
                 }
             );
         }
+
+    // Increase the page
+    $('.firstXBlockRight', element).click
+    (
+        firstXBlockShowPreviousPage
     );
 
 
@@ -257,6 +261,40 @@ function FirstXBlock(runtime, element) {
     );
     
 
+    $(
+        function()
+        {
+            function togglePdf(a)
+            {
+                $(a).hover
+                (
+                    function()
+                    {
+                        $(this).children("i").show()
+                    },
+                    function()
+                    {
+                        $(this).children("i").hide();
+                    }
+                )
+            }
+            togglePdf(".pdf-pre");
+            togglePdf(".pdf-next");
+
+
+            function clickDiv(classNameOfDiv, functionNamePara)
+            {
+                $(classNameOfDiv, element).click
+                (
+                    functionNamePara
+                )
+            }
+            clickDiv(".pdf-pre", firstXBlockShowNextPage);
+            clickDiv(".pdf-next", firstXBlockShowPreviousPage);
+
+
+        }
+    )
 
     $(function ($) {
         /* Here's where you'd do things on page load. */
