@@ -35,7 +35,7 @@ class FirstXBlock(XBlock):
                   help="PDF file that will be shown in the XBlock")
 
     display_name = String(display_name="Display Name",
-                          default="Goodpdf",
+                          default=u"加密PDF",
                           scope=Scope.settings,
                           help="Name of the component in the edx-platform")
 
