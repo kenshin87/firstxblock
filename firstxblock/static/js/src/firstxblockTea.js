@@ -46,7 +46,6 @@ function FirstXBlock(runtime, element) {
             else
             {
                 runtime.notify('save', {state: 'start'});
-
                 var formDataInstance = new FormData();
                 formDataInstance.append("file-upload", $(".file-upload", element)[0].files[0]);
 
