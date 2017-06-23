@@ -2,54 +2,38 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-
-    <title>Title</title>
 </head>
-<script type="text/javascript" src = "https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<body>
 
-    <p>this is the html for file</p>
+<style>
+    #outer2 {
+        position: relative; 
+        height:400px; 
+        width:200px; 
+        border: 1px solid red; 
+    }
+    #inner2 {
+        float: right;
+        position:absolute; 
+        height:100px; 
+        width:20px; 
+        border: 1px solid black; 
+    }
+</style>
 
-                        <form action="." method="post" enctype="multipart/form-data">
-                            <input id = "file-upload" type = file name = "file-upload">
-                            <p><input type="submit" value="Add post"></p>
-                        </form>
-<button id = "ajaxFileServer" >test ajax FileServer</button>
+<div id='outer2'>
+    <div id='inner2'>
+    </div>
+</div>
 </body>
 
 
+<script type="text/javascript" src = "jquery-3.2.1.min.js"></script>
 <script type="text/javascript">
 
-
-$("#ajaxFileServer").click
-(
-    function()
-    {
-        var formDataInstance = new FormData();
-        formDataInstance.append("file-upload", $('#file-upload')[0].files[0]);
-        $.ajax
-        (
-            {
-                type: 'POST',
-                url: '/filecms/upload',
-                data: formDataInstance,
-                cache: false,
-                contentType: false,
-                processData: false,
-
-
-                success: function(result)
-                {
-                    alert(321);
-                }
-            }
-        )
-    }
-);
-
-
-
+$(".zhenfengPdfLeft").click(function(){alert(1)});
+$(".zhenfengPdfRight").click(function(){alert(2)});
 
 </script>
+
 
 </html>
