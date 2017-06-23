@@ -38,11 +38,11 @@ function FirstXBlock(runtime, element) {
     }
     function updatePage(response)
     {
-        $('.currentPage')[0].value = response.page + 1;            
+        $('.firstXBlockCurrentPage')[0].value = response.page + 1;            
     }
 
 
-    $('.show', element).click
+    $('.firstXBlockShow', element).click
     (
         function()
         {
@@ -73,8 +73,8 @@ function FirstXBlock(runtime, element) {
                         updatePage(response);
                         if (response.totalPages > 0)
                         {
-                            $('.currentPage', element).val(1);
-                            $('img', element)[0].src = src;
+                            $('.firstXBlockCurrentPage', element).val(1);
+                            $('.firstXBlockImg', element)[0].src = src;
                         }
                     }
                 }
@@ -84,12 +84,12 @@ function FirstXBlock(runtime, element) {
     );
 
     // Reduce the page
-    $('.left', element).click
+    $('.firstXBlockLeft', element).click
     (
         function(eventObject) 
         {
-            var page       = parseInt($('.currentPage', element)[0].value);
-            var totalPages = parseInt($('.totalPages' , element)[0].value);
+            var page       = parseInt($('.firstXBlockCurrentPage', element).val());
+            var totalPages = parseInt($('.firstXBlockTotalPages' , element).text());
                 page       = getZeroIndexPage(page, totalPages);
                 page      -= 1; 
                 page       = checkValidZeroIndexPage(page, totalPages);
@@ -118,7 +118,7 @@ function FirstXBlock(runtime, element) {
 
                         updateCount(result);
                         updatePage(result);
-                        $('img', element)[0].src = src;
+                        $('.firstXBlockImg', element)[0].src = src;
                     }
                 }
             );
@@ -126,13 +126,12 @@ function FirstXBlock(runtime, element) {
     );
 
     // Increase the page
-    $('.right', element).click
+    $('.firstXBlockRight', element).click
     (
         function(eventObject) 
         {
-
-            var page       = parseInt($('.currentPage', element)[0].value);
-            var totalPages = parseInt($('.totalPages' , element)[0].value);
+            var page       = parseInt($('.firstXBlockCurrentPage', element).val());
+            var totalPages = parseInt($('.firstXBlockTotalPages' , element).text());
                 page       = getZeroIndexPage(page, totalPages);
                 page      += 1; 
                 page       = checkValidZeroIndexPage(page, totalPages);
@@ -164,7 +163,7 @@ function FirstXBlock(runtime, element) {
                         console.log("right");             
                         updateCount(response);
                         updatePage(response);
-                        $('img', element)[0].src = src;
+                        $('.firstXBlockImg', element)[0].src = src;
                     }
                 }
             );
@@ -249,8 +248,6 @@ function FirstXBlock(runtime, element) {
                     data: jsonData,
                     success: function(result)
                     {
-
-
                         console.log(result);
                         console.log(result["systemGeneratedRandomName"]);
                     }
