@@ -54,7 +54,7 @@ function FirstXBlock(runtime, element) {
             var totalPageUrl = runtime.handlerUrl(element, 'get_totalPages');
             var jsonData = JSON.stringify({"page": page});
 
-            var name       = $('.systemGeneratedRandomName', element).text();
+            var name       = $('.systemGeneratedRandomName', element).val();
 
             var src = baseUrl + "getimages/" + name  + "/?page=" + page;
             console.log(src);
@@ -94,7 +94,7 @@ function FirstXBlock(runtime, element) {
             
 
             var jsonData = JSON.stringify({"page": page});
-            var name       = $('.systemGeneratedRandomName', element).text();
+            var name       = $('.systemGeneratedRandomName', element).val();
 
             //var src  = baseUrl + page + ".jpg";
             //var src = baseUrl + name + "?page=" + page; 
@@ -137,7 +137,7 @@ function FirstXBlock(runtime, element) {
                 page = page.toString();
                      console.log(page);
 
-            var name       = $('.systemGeneratedRandomName', element).text();
+            var name       = $('.systemGeneratedRandomName', element).val();
 
             var jsonData = JSON.stringify({"page": page});
 

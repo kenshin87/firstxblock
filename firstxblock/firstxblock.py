@@ -103,6 +103,12 @@ class FirstXBlock(XBlock):
         return {"count": self.count}
 
 
+    # in js, we start by getting the firstPage and initialize the total page
+    @XBlock.json_handler
+    def get_name(self, data, suffix=''):
+        return {"systemGeneratedRandomName":self.systemGeneratedRandomName}
+
+
 
     # in js, we start by getting the firstPage and initialize the total page
     @XBlock.json_handler
