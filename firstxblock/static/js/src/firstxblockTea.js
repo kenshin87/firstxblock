@@ -91,7 +91,7 @@ function FirstXBlock(runtime, element) {
             var jsonData = JSON.stringify(
                     {
                         "systemGeneratedRandomName": preSystemGeneratedRandomName,
-                        "displayName", displayName
+                        "displayName":displayName,
                     }
                 );
      
