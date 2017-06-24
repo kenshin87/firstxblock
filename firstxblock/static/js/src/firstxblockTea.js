@@ -1,12 +1,6 @@
 /* Javascript for FirstXBlock. */
 function FirstXBlock(runtime, element) {
 
-    console.log(runtime);
-    console.log(runtime.notify);
-    window.runtimee = runtime;
-
-
-    var runtime = runtime;
     var global = {};
         global.baseUrl = "/filecms/image/";
 
@@ -21,12 +15,12 @@ function FirstXBlock(runtime, element) {
     //     randomized file name of the pdf file, aka "32498753958234958.pdf"
 
 
-    $(element).find('.action-cancel').bind('click', function() {
+    $(element).find('.save-button').bind('click', function() {
         runtime.notify('cancel', {});
     });
 
 
-    $(element).find('.action-save').bind
+    $(element).find('.save-button').bind
 
     (
         'click', 
