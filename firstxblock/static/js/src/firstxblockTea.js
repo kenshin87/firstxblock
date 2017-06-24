@@ -15,7 +15,7 @@ function FirstXBlock(runtime, element) {
     //     randomized file name of the pdf file, aka "32498753958234958.pdf"
 
 
-    $(element).find('.save-button').bind('click', function() {
+    $(element).find('.cancel-button').bind('click', function() {
         runtime.notify('cancel', {});
     });
 
@@ -206,17 +206,7 @@ function FirstXBlock(runtime, element) {
             );
         }
     );
-    
-
     $(function ($) {
         /* Here"s where you"d do things on page load. */
     });
-
-
-
-
-
-
-
-
 }
