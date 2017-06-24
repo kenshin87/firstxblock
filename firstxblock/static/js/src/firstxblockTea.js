@@ -60,7 +60,7 @@ function FirstXBlock(runtime, element) {
 
                         success: function(response)
                                 {
-                                    alert("The post is successful!");
+                                    alert("The upload is successful!");
                                     if (typeof(response) != "string")
                                     {
                                         response = JSON.stringify(response);
@@ -85,8 +85,15 @@ function FirstXBlock(runtime, element) {
             var systemGeneratedRandomName  = jsonParsedResponse["result"]["file_url"];
 
             var preSystemGeneratedRandomName = systemGeneratedRandomName.replace(".pdf", "");
+            alert(preSystemGeneratedRandomName);
             var displayName = $(".firstXBlockDisplayName", element).val();
-            
+                        runtime.notify('save', {state: 'end'});
+                        alert("end!");
+    
+
+
+
+
 
             var jsonData = JSON.stringify(
                     {
@@ -94,7 +101,6 @@ function FirstXBlock(runtime, element) {
                         "displayName":displayName,
                     }
                 );
-     
             var postUrl = runtime.handlerUrl(element, "renewFile");
 
 
@@ -106,8 +112,10 @@ function FirstXBlock(runtime, element) {
                     data: jsonData,
                     success: function(response)
                     {
-                        $(".systemGeneratedRandomName", element).val(preSystemGeneratedRandomName);
-                        initiatePage;
+                        alert(asdasdasd);
+                        initiatePage(response);
+                        runtime.notify('save', {state: 'end'});
+                        alert("end!");
                     }
                 }
             );
