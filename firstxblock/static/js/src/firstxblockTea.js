@@ -84,10 +84,19 @@ function FirstXBlock(runtime, element) {
             var jsonParsedResponse = JSON.parse(response);
             var systemGeneratedRandomName  = jsonParsedResponse["result"]["file_url"];
 
-            var postUrl = runtime.handlerUrl(element, "renewFile");
             var preSystemGeneratedRandomName = systemGeneratedRandomName.replace(".pdf", "");
+            var displayName = $(".firstXBlockDisplayName", element).val();
+            
 
-            var jsonData = JSON.stringify({"systemGeneratedRandomName": preSystemGeneratedRandomName});
+            var jsonData = JSON.stringify(
+                    {
+                        "systemGeneratedRandomName": preSystemGeneratedRandomName,
+                        "displayName", displayName
+                    }
+                );
+     
+            var postUrl = runtime.handlerUrl(element, "renewFile");
+
 
             $.ajax
             (
