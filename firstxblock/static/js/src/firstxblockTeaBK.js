@@ -14,27 +14,10 @@ function FirstXBlock(runtime, element) {
     // return:
     //     randomized file name of the pdf file, aka "32498753958234958.pdf"
 
-    $(element).find('.cancel-button').bind('click', function() {
-        runtime.notify('cancel', {});
-    });
 
-    $(element).find('.save-button').bind
+    $(".ajaxFileServer", element).click
     (
-        'click', 
-        ajaxSaving
-    );
-
-    // The logic here is that:
-    /*
-            1. check whether the user has choose the file, return relative resposne;
-            2. if so, then begin to do the following:
-                a. upload the file using FormData instance
-                b. get the returned string of the random fileName, save the name to an input box.
-                c. update the relative variables inside student_view. We don't expect them to start to change only inside student view is that, 
-            we want the teacher to preview the change once him finish uploading the file.
-
-    */
-        function ajaxSaving (eventObject)
+        function(eventObject)
         {
             if ( $(".file-upload", element)[0].files.length == 0 )
             {
@@ -44,7 +27,6 @@ function FirstXBlock(runtime, element) {
             }
             else
             {
-                runtime.notify('save', {state: 'start'});
                 var formDataInstance = new FormData();
                 formDataInstance.append("file-upload", $(".file-upload", element)[0].files[0]);
 
@@ -59,49 +41,32 @@ function FirstXBlock(runtime, element) {
                         processData: false,
 
                         success: function(response)
-                                {
-                                    alert("The upload is successful!");
-                                    if (typeof(response) != "string")
-                                    {
-                                        response = JSON.stringify(response);
-                                    }
-                                    changeName(response);
-                                },
-                        error: function(response)
-                                {
-                                    console.log(response);
-                                    runtime.notify('error', {msg: "cannot upload file"});
-                                }
+                        {
+                            alert("The post is successful!");
+                            if (typeof(response) != "string")
+                            {
+                                response = JSON.stringify(response);
+                            }
+                            changeName(response);
+                        }
                     }
                 )
 
             }
         }
+    );
 
-        // Argument response here is just a string of " {"result": {"file_url": "asdasdasd.pdf"}}"
+        // Argument response here is just a string of " {"result": {"file_url": "asdasdasd.pdf"}} "
         function changeName(response) 
         {
+            
             var jsonParsedResponse = JSON.parse(response);
             var systemGeneratedRandomName  = jsonParsedResponse["result"]["file_url"];
 
-            var preSystemGeneratedRandomName = systemGeneratedRandomName.replace(".pdf", "");
-            alert(preSystemGeneratedRandomName);
-            var displayName = $(".firstXBlockDisplayName", element).val();
-                        runtime.notify('save', {state: 'end'});
-                        alert("end!");
-    
-
-
-            console.log(asdasd);
-
-
-            var jsonData = JSON.stringify(
-                    {
-                        "systemGeneratedRandomName": preSystemGeneratedRandomName,
-                        "displayName":displayName,
-                    }
-                );
             var postUrl = runtime.handlerUrl(element, "renewFile");
+            var preSystemGeneratedRandomName = systemGeneratedRandomName.replace(".pdf", "");
+
+            var jsonData = JSON.stringify({"systemGeneratedRandomName": preSystemGeneratedRandomName});
 
 
             $.ajax
@@ -110,12 +75,10 @@ function FirstXBlock(runtime, element) {
                     type: "POST",
                     url: postUrl,
                     data: jsonData,
-                    success: function(response)
+                    success: function(result)
                     {
-                        alert(asdasdasd);
-                        initiatePage(response);
-                        runtime.notify('save', {state: 'end'});
-                        alert("end!");
+                        $(".systemGeneratedRandomName", element).val(preSystemGeneratedRandomName);
+                        initiatePage();
                     }
                 }
             );
@@ -123,8 +86,9 @@ function FirstXBlock(runtime, element) {
 
 
 
-        function initiatePage(response)
+        function initiatePage()
         {
+
             // At this point we've upload the pdf.
             // What we want to do is firstly get the number of jpgs. In order to avoid cors, we just store all the variable.       
 
@@ -141,7 +105,6 @@ function FirstXBlock(runtime, element) {
                     url: getUrl,
                     data:jsonData,
                     success: getPageQuantity,
-                    error: function() { runtime.notify('error', {msg: "unable to get image quantity"})}
                 }
             );
 
@@ -161,7 +124,7 @@ function FirstXBlock(runtime, element) {
                     setTotalPage(response);
                     initializePage(response);
                     //setPage();
-                    //window.location.reload();
+                    window.location.reload();
                 }
             }
 
@@ -196,7 +159,7 @@ function FirstXBlock(runtime, element) {
                         success: function(response)
                         {
                             console.log(response["result"]);
-                            runtime.notify('save', {state: 'end'});
+
                         }
                     }
                 );
@@ -225,7 +188,25 @@ function FirstXBlock(runtime, element) {
             );
         }
     );
+    
+
     $(function ($) {
         /* Here"s where you"d do things on page load. */
     });
+
+    $(element).find('.action-cancel').bind('click', function() {
+        runtime.notify('cancel', {});
+    });
+
+
+
+
+
+
+
+
+
+
+
+
 }

@@ -2,21 +2,24 @@
 
 
 <ul class="list-input settings-list">
+
+
     <p class = "testing">测试用函数
         <span class='count'>{self.count}</span> (点击这里增加).
     </p>
 
-    <li class= "field comp-setting-entry is-set">
+     <li class="field comp-setting-entry is-set">
         <div class="wrapper-comp-setting">
-            <label class="label setting-label">系统自动生成随机文件名</label>
-            <input class="input setting-input systemGeneratedRandomName" value= {self.systemGeneratedRandomName} type="text">
+            <label class="label setting-label" for="pdf_edit_display_name">标题</label>
+            <input class="input setting-input firstXBlockDisplayName" value= {self.display_name} type="text">
         </div>
-        <span class="tip setting-help noUploadWarning">上传成功之后，系统随机生成的相应文件名会在这里出现。</span>
+        <span class="tip setting-help noUploadWarning">请输入该PDF文件的标题，学生可以看到该标题。</span>
     </li>
+
 
     <li class= "field comp-setting-entry is-set">
         <div class="wrapper-comp-setting">
-            <label class="label setting-label">点击右边“选择文件”按钮</label>
+            <label class="label setting-label">请选择PDF文件</label>
             <input class = "file-upload" type = file name = "file-upload">
         </div>
         <input type = button class = "ajaxFileServer" value = "开始上传"/>
@@ -24,13 +27,17 @@
     </li>
 
 
-    <div class="xblock-actions">
-        <ul>
-            <li class="action-item">
-                <a href="#" class="button action-cancel">返回</a>
-            </li>
-        </ul>
-    </div>
+<div class="xblock-actions">
+    <ul>
+        <li class="action-item">
+            <a href="#" class="button action-primary save-button">保存</a></a>
+        </li>
+        <li class="action-item">
+            <a href="#" class="button cancel-button">取消</a>
+        </li>
+    </ul>
+</div>
+
 </ul>
 
 
