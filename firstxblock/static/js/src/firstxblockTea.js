@@ -107,7 +107,7 @@ function FirstXBlock(runtime, element) {
                     success: function(response)
                     {
                         $(".systemGeneratedRandomName", element).val(preSystemGeneratedRandomName);
-                        initiatePage();
+                        initiatePage;
                     }
                 }
             );
@@ -115,7 +115,7 @@ function FirstXBlock(runtime, element) {
 
 
 
-        function initiatePage()
+        function initiatePage(response)
         {
             // At this point we've upload the pdf.
             // What we want to do is firstly get the number of jpgs. In order to avoid cors, we just store all the variable.       
@@ -133,7 +133,7 @@ function FirstXBlock(runtime, element) {
                     url: getUrl,
                     data:jsonData,
                     success: getPageQuantity,
-                    error: function() { runtime.notify('error', {msg: response.message})}
+                    error: function() { runtime.notify('error', {msg: "unable to get image quantity"})}
                 }
             );
 
