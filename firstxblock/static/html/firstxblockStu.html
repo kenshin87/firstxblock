@@ -7,27 +7,29 @@
 
 
 <div class="firstxblock_block">
-
+    
+<!--Zhenfeng-->     <p>{self.display_name}</p>
     <div class="pdf-box">
-
         <div class="pdf-nav">
             <div class="pdf-pages">
                 <i class="fa fa-chevron-left firstXBlockLeft" aria-hidden="true"></i>
                 <div class="pdf-inp">
                     
-<!--Zhenfeng-->             <input class = "firstXBlockCurrentPage"   type = "text" value = {self.page}>    
-<!--Zhenfeng-->             <span  class = "firstXBlockTotalPages"    type = "button" value = >{self.totalPages}</span>
+<!--Zhenfeng-->             <input class = "firstXBlockCurrentPage"   type = "text" value = {self.page} style="padding:0;">    
+<!--Zhenfeng-->             <span  class = "firstXBlockTotalPages"    type = "button" value = > / {self.totalPages}</span>
 
                 </div>
                 <i class="fa fa-chevron-right firstXBlockRight" aria-hidden="true"></i>
             </div>
 
         </div>
+        
 
         <div class="pdf-imgbox">
-
+           
             <div class="imgbox">
-<!--Zhenfeng-->         <img class = "firstXBlockImg" src="" alt="">
+
+<!--Zhenfeng-->         <img class = "firstXBlockImg" src="http://www.eliteu.cn/static/images/eliteu/index/step.png" alt="">
             </div>
 
             <div class="pdf-pre">
@@ -42,8 +44,7 @@
     </div>
 
     <div>
-    <input class = "systemGeneratedRandomName" value = {self.systemGeneratedRandomName} hidden ><!-- after successfully upload the file, the name should be here -->    
-       <button class = "firstXBlockShow">show</button>
+    <input class = "systemGeneratedRandomNameStu" value = {self.systemGeneratedRandomName} hidden><!-- after successfully upload the file, the name should be here -->    
     </div>
     
 </div>

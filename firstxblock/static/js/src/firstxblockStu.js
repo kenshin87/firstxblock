@@ -29,9 +29,6 @@ function FirstXBlock(runtime, element) {
     var postUrl = runtime.handlerUrl(element, 'get_page');
 
 
-
-    
-
     // update count and page number
     function updateCount(response) 
     {
@@ -39,144 +36,176 @@ function FirstXBlock(runtime, element) {
     }
     function updatePage(response)
     {
-        $('.firstXBlockCurrentPage')[0].value = response.page + 1;            
+        $('.firstXBlockCurrentPage', element)[0].value = response.page + 1;            
     }
 
-
-    $('.firstXBlockShow', element).click
-    (
+    $(
         function()
         {
-
-            var page    = 0;
-            var baseUrl = global.baseUrl;
-        
-            // postUrl here is for posting the message to the xblock special handle function.
-            var totalPageUrl = runtime.handlerUrl(element, 'get_totalPages');
-            var jsonData = JSON.stringify({"page": page});
-
-            var name       = $('.systemGeneratedRandomName', element).val();
-
-            var src = baseUrl + "getimages/" + name  + "/?page=" + page;
-            console.log(src);
-
-            $.ajax
-            (
-                {
-                    type: "POST",
-                    url: totalPageUrl,
-                    data: jsonData,
-                    success: function(response)
+            function togglePdf(a)
+            {
+                $(a).hover
+                (
+                    function()
                     {
-                        console.log("initial");
-                        console.log(response);
-                        updateCount(response);
-                        updatePage(response);
-                        if (response.totalPages > 0)
+                        $(this).children("i").show()
+                    },
+                    function()
+                    {
+                        $(this).children("i").hide();
+                    }
+                )
+            }
+            togglePdf(".pdf-pre");
+            togglePdf(".pdf-next");
+
+
+            function clickDiv(classNameOfDiv, functionNamePara)
+            {
+                $(classNameOfDiv, element).click
+                (
+                    functionNamePara
+                );
+            }
+            clickDiv(".pdf-next",   ShowpageGenerator("next"));
+            clickDiv(".pdf-pre",  ShowpageGenerator("pre"));
+            //clickDiv(".firstXBlockCurrentPage",  ShowpageGenerator("enter"));
+
+
+            (
+                function ()
+                {
+                    // This is to initiate everything.
+                    var page    = 0;
+                    var baseUrl = global.baseUrl;
+                
+                    // postUrl here is for posting the message to the xblock special handle function.
+                    var totalPageUrl = runtime.handlerUrl(element, 'get_totalPages');
+                    var jsonData = JSON.stringify({"page": page});
+
+                    var name       = $('.systemGeneratedRandomNameStu', element).val();
+
+                    var src = baseUrl + "getimages/" + name  + "/?page=" + page;
+                    console.log(src);
+
+                    $.ajax
+                    (
                         {
-                            $('.firstXBlockCurrentPage', element).val(1);
+                            type: "POST",
+                            url: totalPageUrl,
+                            data: jsonData,
+                            success: function(response)
+                            {
+                                //console.log("initial");
+                                //updatePage(response);
+                                if (response.totalPages > 0)
+                                {
+                                    $('.firstXBlockCurrentPage', element).val(1);
+                                    $('.firstXBlockImg', element)[0].src = src;
+                                }
+                            },
+                            error: function(response)
+                            {
+                                alert("cannot return xblock get_totalPages")
+                            }
+                        }
+                    );
+                }
+            )();    
+        }
+    );
+
+
+    function ShowpageGenerator(pageFlag)
+    {
+        return function (eventObject) 
+        {
+            var page       = parseInt($('.firstXBlockCurrentPage', element).val());
+            var totalPages = parseInt($('.firstXBlockTotalPages' , element).text().replace("/", ""));
+                page       = getZeroIndexPage(page, totalPages);
+                if        (pageFlag == "next" )   { page      += 1;  }
+                else if   (pageFlag == "pre"  )   { page      -= 1;  }  
+                else if   (pageFlag == "enter")   {  }                           
+                page       = checkValidZeroIndexPage(page, totalPages);
+
+            if (pageFlag == "next" ||  pageFlag == "pre")   
+            {
+                var jsonData = JSON.stringify({"page": page});
+                var name       = $('.systemGeneratedRandomNameStu', element).val();
+
+                //var src  = baseUrl + page + ".jpg";
+                //var src = baseUrl + name + "?page=" + page; 
+                var src = baseUrl + "getimages/" + name  + "/?page=" + page;
+                //console.log(src);
+
+                $.ajax
+                (
+                    {
+                        type: "POST",
+                        url: postUrl,
+                        data: jsonData,
+                        success: function(result)
+                        {
+                            updateCount(result);
+                            updatePage(result);
                             $('.firstXBlockImg', element)[0].src = src;
                         }
                     }
-                }
-            );
+                );                
+            }     
+        }        
+    }
 
-        }
-    );
-
-        function firstXBlockShowNextPage(eventObject) 
+    $(".firstXBlockCurrentPage",  element)[0].addEventListener
+    (   "keypress",
+        function(eventObject)
         {
+
             var page       = parseInt($('.firstXBlockCurrentPage', element).val());
-            var totalPages = parseInt($('.firstXBlockTotalPages' , element).text());
-                page       = getZeroIndexPage(page, totalPages);
-                page      -= 1; 
-                page       = checkValidZeroIndexPage(page, totalPages);
-                page = page.toString();
-            
+            var totalPages = parseInt($('.firstXBlockTotalPages' , element).text().replace("/", ""));
+                page       = getZeroIndexPage(page, totalPages);                        
+                page       = checkValidZeroIndexPage(page, totalPages);    
 
-            var jsonData = JSON.stringify({"page": page});
-            var name       = $('.systemGeneratedRandomName', element).val();
+            if (eventObject.keyCode == 13)
+            {
+                console.log(page);
+                console.log("hey!")
+                var jsonData = JSON.stringify({"page": page});
+                var name       = $('.systemGeneratedRandomNameStu', element).val();
 
-            //var src  = baseUrl + page + ".jpg";
-            //var src = baseUrl + name + "?page=" + page; 
-            var src = baseUrl + "getimages/" + name  + "/?page=" + page;
-
-
-            console.log(src);
-            $.ajax
-            (
-                {
-                    type: "POST",
-                    url: postUrl,
-                    data: jsonData,
-                    success: function(result)
+                //var src  = baseUrl + page + ".jpg";
+                //var src = baseUrl + name + "?page=" + page; 
+                var src = baseUrl + "getimages/" + name  + "/?page=" + page;
+                //console.log(src);
+                $.ajax
+                (
                     {
-                        console.log("left");
-                        console.log(result.count);
-
-                        updateCount(result);
-                        updatePage(result);
-                        $('.firstXBlockImg', element)[0].src = src;
+                        type: "POST",
+                        url: postUrl,
+                        data: jsonData,
+                        success: function(result)
+                        {
+                            updateCount(result);
+                            updatePage(result);
+                            $('.firstXBlockImg', element)[0].src = src;
+                        }
                     }
-                }
-            );
+                );         
+            }                   
         }
+    )
 
     // Reduce the page
-    $('.firstXBlockLeft', element).click
-    (
-        firstXBlockShowNextPage
-    );
-
-        function firstXBlockShowPreviousPage (eventObject) 
-        {
-            var page       = parseInt($('.firstXBlockCurrentPage', element).val());
-            var totalPages = parseInt($('.firstXBlockTotalPages' , element).text());
-                page       = getZeroIndexPage(page, totalPages);
-                page      += 1; 
-                page       = checkValidZeroIndexPage(page, totalPages);
-                page = page.toString();
-                     console.log(page);
-
-            var name       = $('.systemGeneratedRandomName', element).val();
-
-            var jsonData = JSON.stringify({"page": page});
-
-            //var src = baseUrl + name + "?page=" + page; 
-            //var src  = baseUrl + page + ".jpg";
-            var src = baseUrl + "getimages/" + name  + "/?page=" + page;
-
-
-
-            console.log(src);
-
-            $.ajax
-            (
-                {
-                    type: "POST",
-                    url: postUrl,
-                    data: jsonData,
-                    success: function(response)
-                    {
-                        window.respp = response;
-                        console.log(response);
-                        console.log("right");             
-                        updateCount(response);
-                        updatePage(response);
-                        $('.firstXBlockImg', element)[0].src = src;
-                    }
-                }
-            );
-        }
-
-    // Increase the page
     $('.firstXBlockRight', element).click
     (
-        firstXBlockShowPreviousPage
+        ShowpageGenerator("next")
     );
 
-
-
+    // Increase the page
+    $('.firstXBlockLeft', element).click
+    (
+        ShowpageGenerator("pre")
+    );
 
     // following are testing codes.
 
@@ -210,7 +239,7 @@ function FirstXBlock(runtime, element) {
             var postUrl = runtime.handlerUrl(element, 'renewFile');
 
 
-            var key   = "systemGeneratedRandomName";
+            var key   = "systemGeneratedRandomNameStu";
 
             var value = $('.inputsetname')[0].value;
 
@@ -259,38 +288,6 @@ function FirstXBlock(runtime, element) {
     );
     
 
-    $(
-        function()
-        {
-            function togglePdf(a)
-            {
-                $(a).hover
-                (
-                    function()
-                    {
-                        $(this).children("i").show()
-                    },
-                    function()
-                    {
-                        $(this).children("i").hide();
-                    }
-                )
-            }
-            togglePdf(".pdf-pre");
-            togglePdf(".pdf-next");
-
-
-            function clickDiv(classNameOfDiv, functionNamePara)
-            {
-                $(classNameOfDiv, element).click
-                (
-                    functionNamePara
-                );
-            }
-            clickDiv(".pdf-pre",  firstXBlockShowNextPage);
-            clickDiv(".pdf-next", firstXBlockShowPreviousPage);
-        }
-    );
 
     $(
         function ($)

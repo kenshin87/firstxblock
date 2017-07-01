@@ -21,69 +21,98 @@ function FirstXBlock(runtime, element) {
 
 
     $(element).find('.save-button').bind
-
     (
         'click', 
-        ajaxSaving
+        ajaxUpload
     );
 
-        function ajaxSaving (eventObject)
+        function ajaxUpload (eventObject)
         {
-            
+            console.log("enter ajax upload");
 
+            // make sure a file is selectd
             if ( $(".file-upload", element)[0].files.length == 0 )
             {
                 eventObject.preventDefault();
                 $(".noUploadWarning", element).css("background-color", "#f11")
                 $(".noUploadWarning", element).text("请先点击“选择文件”按钮选择一个pdf文件");
             }
-            else
-            {
-                runtime.notify('save', {state: 'start'});
-                var formDataInstance = new FormData();
-                formDataInstance.append("file-upload", $(".file-upload", element)[0].files[0]);
 
-                $.ajax
-                (
-                    {
-                        type : "POST",
-                        url  : "/filecms/upload/",
-                        data : formDataInstance,
-                        cache: false,
-                        contentType: false,
-                        processData: false,
+            // when there is a file
+            else 
+            {    
+                var nameList = $(".file-upload", element)[0].files[0].name.split("."); 
+                if (  nameList.length != 2 || nameList[1].toLowerCase() != "pdf" )
+                {
+                    eventObject.preventDefault();
+                    $(".noUploadWarning", element).css("background-color", "#f11")
+                    $(".noUploadWarning", element).text("只支持pdf文件的上传！");
+                }
+                else
+                {
+                    // ajaxing the file.
+                    //    0: change name both in the xblock and html;
+                    //    1: alert error.
+                    runtime.notify('save', {state: 'start'});
+                    var formDataInstance = new FormData();
+                    formDataInstance.append("file-upload", $(".file-upload", element)[0].files[0]);
 
-                        success: function(response)
+                    $.ajax
+                    (
                         {
-                            alert("The post is successful!");
-                            if (typeof(response) != "string")
-                            {
-                                response = JSON.stringify(response);
-                            }
-                            changeName(response);
-                        }
-                    }
-                )
+                            type : "POST",
+                            url  : "/filecms/upload/",
+                            data : formDataInstance,
+                            cache: false,
+                            contentType: false,
+                            processData: false,
 
+                            success: function(response)
+                            {
+                                if (typeof(response) != "string")
+                                {
+                                    response = JSON.stringify(response);
+                                }
+                                runtime.notify('save', {state: 'end'});
+                                changeName(response);
+                            }, 
+
+                            error: function(response)
+                            {
+                                alert("The upload fails!");
+                                alert(response);
+                                runtime.notify('error', {msg: "文件上传失败，请联系网站管理员。"})
+                            }
+                        }
+                    )
+                }
             }
         }
-
-
-
-
 
         // Argument response here is just a string of " {"result": {"file_url": "asdasdasd.pdf"}} "
         function changeName(response) 
         {
-            
+            // renew the systemGeneratedRandomName and displayName inside xblock;
+            // response here is string:
+            //       '{systemGeneratedRandomName: "1498633479623217", "displayName":"加密pdf"}'
+
+            console.log("enter changeName");
+            runtime.notify('save', {state: 'start'});
             var jsonParsedResponse = JSON.parse(response);
             var systemGeneratedRandomName  = jsonParsedResponse["result"]["file_url"];
 
             var postUrl = runtime.handlerUrl(element, "renewFile");
+
             var preSystemGeneratedRandomName = systemGeneratedRandomName.replace(".pdf", "");
+            var firstXBlockTeaDisplayName    = $(".firstXBlockTeaDisplayName", element).val();
 
-            var jsonData = JSON.stringify({"systemGeneratedRandomName": preSystemGeneratedRandomName});
 
+            var jsonData = JSON.stringify(
+                    {
+                        "systemGeneratedRandomName": preSystemGeneratedRandomName, 
+                        "displayName": firstXBlockTeaDisplayName,
+                    }
+                );
 
             $.ajax
             (
@@ -93,9 +122,18 @@ function FirstXBlock(runtime, element) {
                     data: jsonData,
                     success: function(response)
                     {
-                        $(".systemGeneratedRandomName", element).val(preSystemGeneratedRandomName);
+                        // if successful, means that the names inside xblock is updated. Now what we need to do is just update the page.
+                        $(".systemGeneratedRandomNameTea", element).val(preSystemGeneratedRandomName);
+                        $(".firstXBlockTeaDisplayName", element).val(firstXBlockTeaDisplayName);
+                        runtime.notify('save', {state: 'end'});
                         initiatePage();
-                    }
+                    },
+                    error: function(response)
+                    {
+                        alert("The changeName fails!");
+                        alert(response);
+                        runtime.notify('error', {msg: "更改文件新名字失败，请联系网站管理员。"})
+                    }                    
                 }
             );
         }
@@ -104,12 +142,13 @@ function FirstXBlock(runtime, element) {
 
         function initiatePage()
         {
+            console.log("enter initiatePage");
+            // At this point we've upload the pdf, update both html and xblock name.
+            // What we want to do is first get the number of jpgs. In order to avoid cors, we just store all the variable.    
 
-            // At this point we've upload the pdf.
-            // What we want to do is firstly get the number of jpgs. In order to avoid cors, we just store all the variable.       
-
-            var name       = $('.systemGeneratedRandomName', element).val();
-
+            runtime.notify('save', {state: 'start'});
+   
+            var name       = $('.systemGeneratedRandomNameTea', element).val();
             var baseUrl    = global.baseUrl;
             var getUrl     = baseUrl + "getimagesquantity/";
             var jsonData   = {"imageFolder": name};
@@ -121,67 +160,68 @@ function FirstXBlock(runtime, element) {
                     url: getUrl,
                     data:jsonData,
                     success: getPageQuantity,
-                    error: function() { runtime.notify('error', {msg: response.message})}
+                    error: function(response) 
+                    {
+                        runtime.notify('error', {msg: "更新新页面信息失败，请联系网站管理员。"})
+                    }
                 }
             );
 
             function getPageQuantity(response)
             {
+                /*
+                    // response here is string:
+                    `  
+                        {
+                            result: 
+                            {
+                                page : 16 
+                            }
+                        }
+                    `
+                */
                 if (typeof(response) != "string")
                 {
                     response = JSON.stringify(response);
                 }
-                
+             
                 response = JSON.parse(response)["result"];
 
-                // only execute consequential codes when result.pages > 0; 
-                if (response["pages"] > 0 )
+                if (response["pages"] <= 0 )
                 {
-                    console.log("end");
-                    setTotalPage(response);
-                    initializePage(response);
-                    //setPage();
-                    //window.location.reload();
-                    runtime.notify('save', {state: 'end'});
+                    console.log("nothing");
+                }
+
+                // only execute consequential codes when result.pages > 0; 
+                else if ( response["pages"] > 0 )
+                {
+                    // When page > 0, then we again need to update page inside xblock and page inside the html.
+                    updateTotalPage(response);
+
+                    function updateTotalPage(response)
+                    {
+                        // postUrl here is for posting the message to the xblock special handle function.
+                        var postUrl = runtime.handlerUrl(element, 'set_page');
+
+                        var totalPages = response["pages"];
+                        var jsonData = JSON.stringify({"totalPages": totalPages});
+
+                        $.ajax
+                        (
+                            {
+                                type: "POST",
+                                url: postUrl,
+                                data: jsonData,
+                                success: function(response)
+                                {
+                                    runtime.notify('save', {state: 'end'});
+                                    window.location.reload();
+                                }
+                            }
+                        );
+                    }                           
                 }
             }
-
-
-            function setPage(response)
-            {
-                $('.currentPage', element).val(1);
-                console.log($('.currentPage', element));
-            }
-
-            function setTotalPage(response)
-            {
-                $('.totalPages', element).val(response["pages"]);
-                console.log( $('.totalPages', element).val);
-            }            
-
-            function initializePage(response)
-            {
-                // postUrl here is for posting the message to the xblock special handle function.
-                var postUrl = runtime.handlerUrl(element, 'set_page');
-
-                var totalPages = response["pages"];
-
-                var jsonData = JSON.stringify({"totalPages": totalPages});
-
-                $.ajax
-                (
-                    {
-                        type: "POST",
-                        url: postUrl,
-                        data: jsonData,
-                        success: function(response)
-                        {
-                            console.log(response["result"]);
-
-                        }
-                    }
-                );
-            }       
         }
 
     // Following are testing code, can delete

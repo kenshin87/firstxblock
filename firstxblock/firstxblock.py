@@ -19,23 +19,18 @@ We can store:
 
 class FirstXBlock(XBlock):
 
-    fileName= String(
-        default = "no file", scope = Scope.settings,
-        help = "name of the pdf file"
-    )
-
     systemGeneratedRandomName = String(
         default = u"暂未上传文件", scope = Scope.settings,
         help = "name of the pdf file"
     )
 
     href = String(display_name="href",
-                  default="http://www.upv.es/miw/infoweb/vcamp/info/plano-upv-es.pdf",
-                  scope=Scope.content,
+                  default="http://www.eliteu.cn/static/images/eliteu/index/step.png",
+                  scope=Scope.user_state,
                   help="PDF file that will be shown in the XBlock")
 
     display_name = String(display_name="Display Name",
-                          default=u"加密PDF",
+                          default=u"不可下载PDF",
                           scope=Scope.settings,
                           help="Name of the component in the edx-platform")
 
@@ -152,9 +147,7 @@ class FirstXBlock(XBlock):
         """
 
         print 123466
-
         assert data["fileName"] == "document"
-
 
         # Here need to check how many file are there inside the server
         pages = 15
@@ -164,31 +157,18 @@ class FirstXBlock(XBlock):
 
     @XBlock.json_handler
     def renewFile(self, data, suffix=''):
-        assert 1 == 1
-        print data
+
         self.systemGeneratedRandomName = data["systemGeneratedRandomName"]
+        self.display_name              = data["displayName"]
         # Here need to check how many file are there inside the server
-        return { "systemGeneratedRandomName": self.systemGeneratedRandomName}
-
-
-
-
-
-    @XBlock.json_handler
-    def updateFile(self, data, suffix=''):
-        return { "systemGeneratedRandomName": self.systemGeneratedRandomName}
-
-    @XBlock.json_handler
-    def save_pdf(self, data, suffix=''):
-        """
-        The saving handler.
-        """
-        self.display_name = data['display_name']
-
-        return {
-            'result': 'success',
+        return { 
+        "systemGeneratedRandomName": self.systemGeneratedRandomName, 
+        "displayName": self.display_name 
         }
 
+#    @XBlock.json_handler
+#    def updateFile(self, data, suffix=''):
+#        return { "systemGeneratedRandomName": self.systemGeneratedRandomName}
 
 
     # TO-DO: change this to create the scenarios you'd like to see in the
